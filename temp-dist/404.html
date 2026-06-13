@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Suntrion Group</title>
+  <script>
+    // GitHub Pages / static host SPA redirect trick.
+    // Encodes the current path into a query param, then redirects to /?p=<encoded-path>
+    // The index.html script below decodes it and uses history.replaceState to restore the URL.
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.host + l.pathname.split('/').slice(0, 1).join('/') +
+      '/?p=' + encodeURIComponent(l.pathname + l.search) +
+      (l.hash ? '&h=' + encodeURIComponent(l.hash) : '')
+    );
+  </script>
+</head>
+<body></body>
+</html>
