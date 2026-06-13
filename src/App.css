@@ -1,0 +1,142 @@
+/** * SUNTRION TECHNOSOL - GLOBAL STYLESHEET 2026 
+ * Expanded & Fixed for Framer Motion Integration
+ */
+
+:root {
+  /* Re-syncing your original brand colors */
+  --accent: #4672A4;         /* Suntrion Blue */
+  --accent-bg: #f0f7ff;
+  --accent-border: #F59E0B;   /* Suntrion Gold/Orange */
+  --text-h: #0A1128;
+  --border: #e2e8f0;
+  --social-bg: #ffffff;
+  --shadow: 0 4px 12px rgba(70, 114, 164, 0.15);
+  --shadow-premium: 0 20px 40px -15px rgba(70, 114, 164, 0.2);
+}
+
+/* --- 1. GLOBAL RESET & STABILITY --- */
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden; 
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-h);
+}
+
+/* --- 2. THE HERO 3D PHYSICS --- */
+/* We keep the perspective container here so Framer Motion has a 3D space to play in */
+.hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px; 
+  perspective: 1000px; /* Essential for the 3D tilt effect */
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    height: 240px;
+  }
+}
+
+/* --- 3. COUNTER & BUTTON STYLE (Your custom logic) --- */
+.counter {
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.counter:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* --- 4. NAVIGATION LINKS (Next Steps) --- */
+#next-steps ul a {
+  color: var(--text-h);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+  background: var(--social-bg);
+  display: flex;
+  padding: 8px 16px;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#next-steps ul a:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* --- 5. PREMIUM SCROLLBAR --- */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 20px;
+    border: 3px solid #f8fafc;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+}
+
+/* --- 6. GLASSMORPHISM UTILITY --- */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+/* --- 7. DECORATIVE TICKS --- */
+.ticks::before, .ticks::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  border: 6px solid transparent;
+}
+.ticks::before { left: 0; border-left-color: var(--accent); }
+.ticks::after { right: 0; border-right-color: var(--accent-border); }
+
+/* --- 8. MOTION HARDWARE ACCELERATION --- */
+.motion-container {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+is this my app.css
