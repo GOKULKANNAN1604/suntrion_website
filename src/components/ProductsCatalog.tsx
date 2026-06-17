@@ -1444,9 +1444,11 @@ export default function ProductsCatalog() {
                     <CheckCircle2 size={32} />
                   </div>
                   <h3 className="text-xl font-black text-[#0A1128] dark:text-white uppercase tracking-tight mb-2">Quote Request Submitted!</h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs font-medium leading-relaxed max-w-sm">
-                    Our sales department will compile a custom proposal for <span className="text-[#4672A4]">{activeSub}</span> and contact you shortly at <strong className="text-slate-600 dark:text-slate-300">{quoteFormData.email}</strong>.
-                  </p>
+                 <p className="text-slate-500 dark:text-slate-400 text-xs font-medium leading-relaxed max-w-sm mb-2">
+  Our team will review your request and reach out within 12 to 48 hours.
+  <br className="mt-2" />
+  For any urgent inquiries, please feel free to call us at <strong className="text-slate-600 dark:text-slate-300">+919597959894 (or) +918148145563</strong>.
+</p>
                   <button 
                     type="button" 
                     onClick={() => setIsQuoteModalOpen(false)}
