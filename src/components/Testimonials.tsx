@@ -58,6 +58,42 @@ const clientLogos = [
   { name: "Torrent Power", src: torrentPowerLogo },
 ];
 
+// Duplicate logos for seamless loop
+const allLogos = [...clientLogos, ...clientLogos];
+
+function LogoStrip() {
+  return (
+    <div className="relative overflow-hidden w-full py-2">
+      {/* Fade edges */}
+      <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white dark:from-[#070B13] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white dark:from-[#070B13] to-transparent z-10 pointer-events-none" />
+
+      <motion.div
+        className="flex gap-5 w-max"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+      >
+        {allLogos.map((logo, i) => (
+          <div
+            key={i}
+            className="flex-shrink-0 bg-slate-50/90 dark:bg-white/95 border border-slate-100 dark:border-white/10 rounded-2xl px-6 py-4 flex flex-col items-center justify-center gap-2 min-w-[140px] shadow-sm hover:shadow-md hover:border-[#4672A4]/30 transition-all duration-300 group/logo cursor-default"
+          >
+            <img
+              src={logo.src}
+              alt={logo.name}
+              className="max-w-[85px] max-h-[36px] object-contain mix-blend-multiply opacity-75 group-hover/logo:opacity-100 transition-opacity duration-300"
+            />
+            <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 group-hover/logo:text-[#4672A4] transition-colors duration-300 text-center">
+              {logo.name}
+            </span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+
 export default function Testimonials() {
   const brandBlue = "#4672A4";
   const brandOrange = "#F59E0B";
@@ -73,15 +109,22 @@ export default function Testimonials() {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.96 },
+    hidden: { 
+      opacity: 0, 
+      y: 70, 
+      scale: 0.95, 
+      rotateX: 8,
+      transformPerspective: 1000 
+    },
     visible: { 
       opacity: 1, 
       y: 0, 
       scale: 1,
+      rotateX: 0,
       transition: { 
         type: "spring" as const,
-        stiffness: 75,
-        damping: 15,
+        stiffness: 55,
+        damping: 12,
         mass: 0.9
       } 
     }
@@ -99,10 +142,16 @@ export default function Testimonials() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-6" style={{ color: brandBlue }}>
-            Global Trust. <span className="text-slate-300 dark:text-slate-700">Proven Impact.</span>
+          <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EBF2FA] dark:bg-[#0E1B30] border border-[#4672A4]/35 rounded-full shadow-[0_2px_10px_rgba(70,114,164,0.06)] mb-6 transition-all hover:border-[#4672A4]/50 select-none">
+            <Activity size={14} className="text-[#4672A4] dark:text-[#5B92D1] stroke-[2.5] animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4672A4] dark:text-[#5B92D1] font-['Outfit']">
+              Enterprise Validation
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase mb-6 text-[#0A1128] dark:text-white leading-none">
+            Global Trust. <span className="text-[#4672A4] dark:text-[#5B92D1]">Proven Impact.</span>
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             A decade of delivering precision engineering and digital intelligence across government and private sectors.
           </p>
         </motion.div>
@@ -157,48 +206,28 @@ export default function Testimonials() {
           ))}
         </motion.div>
 
-        {/* --- INFINITE MARQUEE --- */}
-        <div className="mt-20 border-t border-slate-100 dark:border-white/5 pt-16">
-          <h3 className="text-center text-xs font-black uppercase tracking-widest text-slate-400 mb-12">
-            Our Elite Corporate Clientele
-          </h3>
-          
-          <div className="relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-24 before:bg-gradient-to-r before:from-white dark:before:from-[#070B13] before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-24 after:bg-gradient-to-l after:from-white dark:after:from-[#070B13] after:to-transparent">
-            
-            <motion.div 
-              className="flex gap-12 items-center w-max py-4"
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{
-                ease: "linear",
-                duration: 25, 
-                repeat: Infinity,
-              }}
-            >
-              {[...clientLogos, ...clientLogos].map((logo, index) => (
-                <div 
-                  key={index} 
-                  className="w-40 h-20 bg-white dark:bg-white/95 border border-slate-100 dark:border-white/10 rounded-2xl p-4 flex items-center justify-center transition-transform duration-300 hover:scale-105 select-none shadow-sm"
-                >
-                  <img 
-                    src={logo.src} 
-                    alt={logo.name} 
-                    className="max-w-full max-h-full object-contain mix-blend-multiply"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      const sibling = target.parentElement?.querySelector('span');
-                      if (sibling) {
-                        sibling.style.display = 'block';
-                      }
-                    }}
-                  />
-                  <span className="hidden text-xs font-bold text-slate-400 text-center uppercase tracking-tight">
-                    {logo.name}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+        {/* --- GRID SHOWCASE --- */}
+        <div className="mt-28 border-t border-slate-100 dark:border-white/5 pt-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2.5 px-6 py-2.5 bg-[#EBF2FA] dark:bg-[#0E1B30] border border-[#4672A4]/35 rounded-full shadow-[0_2px_10px_rgba(70,114,164,0.06)] mb-5 select-none">
+              <Globe size={14} className="text-[#4672A4] dark:text-[#5B92D1] stroke-[2.5]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4672A4] dark:text-[#5B92D1] font-['Outfit']">
+                Trusted Partnerships
+              </span>
+            </div>
+            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-[#0A1128] dark:text-white mt-2">
+              Our Elite Corporate Clientele
+            </h3>
+          </motion.div>
+
+          {/* Infinite Marquee */}
+          <LogoStrip />
         </div>
       </div>
     </section>

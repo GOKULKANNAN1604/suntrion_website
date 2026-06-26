@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { Printer, Settings, Layers, Image as ImageIcon, LayoutTemplate } from 'lucide-react';
 
 const fadeInUp = {

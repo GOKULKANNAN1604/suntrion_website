@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { Scissors, Layers, Sliders, ZoomIn } from 'lucide-react';
 
 const fadeInUp = {

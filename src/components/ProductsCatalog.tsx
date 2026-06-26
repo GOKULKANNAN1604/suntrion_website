@@ -21,22 +21,22 @@ import {
 } from 'lucide-react';
 
 interface Testimonial {
-  client: string;
-  location: string;
-  text: string;
-  icon: React.ReactNode;
+  client: string;
+  location: string;
+  text: string;
+  icon: React.ReactNode;
 }
 
 interface CatalogItem {
-  name: string;
-  icon: React.ReactNode;
+  name: string;
+  icon: React.ReactNode;
 }
 
 interface SubcategoryData {
-  intro?: string;
-  items?: CatalogItem[];
-  datasheets?: string[];
-  footer?: string;
+  intro?: string;
+  items?: CatalogItem[];
+  datasheets?: string[];
+  footer?: string;
 }
 
 interface CategoryData {
@@ -613,20 +613,23 @@ const LaboratoryVisual = () => (
         <FlaskConical size={56} className="drop-shadow-[0_0_15px_rgba(129,140,248,0.5)]" />
       </motion.div>
       {/* Floating Bubbles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ y: 20, x: (i - 2.5) * 8, opacity: 0, scale: 0.5 }}
-          animate={{ y: -40, opacity: [0, 0.8, 0], scale: [0.5, 1, 0.5] }}
-          transition={{
-            repeat: Infinity,
-            duration: 2 + Math.random() * 1.5,
-            delay: i * 0.4,
-            ease: "easeOut"
-          }}
-          className="absolute w-2 h-2 rounded-full bg-indigo-300 shadow-[0_0_5px_rgba(165,180,252,0.8)]"
-        />
-      ))}
+      {[...Array(6)].map((_, i) => {
+        const duration = 2 + ((i * 0.7) % 1.5);
+        return (
+          <motion.div
+            key={i}
+            initial={{ y: 20, x: (i - 2.5) * 8, opacity: 0, scale: 0.5 }}
+            animate={{ y: -40, opacity: [0, 0.8, 0], scale: [0.5, 1, 0.5] }}
+            transition={{
+              repeat: Infinity,
+              duration,
+              delay: i * 0.4,
+              ease: "easeOut"
+            }}
+            className="absolute w-2 h-2 rounded-full bg-indigo-300 shadow-[0_0_5px_rgba(165,180,252,0.8)]"
+          />
+        );
+      })}
     </div>
   </div>
 );
@@ -901,105 +904,105 @@ export default function ProductsCatalog() {
     });
   };
 
-  const getDynamicContactLink = () => {
-    if (typeof window !== "undefined" && navigator) {
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-      if (isMobileDevice) {
-        return `tel:+${WHATSAPP_NUMBER}`;
-      }
-    }
-    return `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Hi%20Suntrion%20Sales,%20I'd%20like%20to%20get%20a%20quote%20for%20the%20${catalogData[activeCategory].title}%20-%20${activeSub}.`;
-  };
+  const getDynamicContactLink = () => {
+    if (typeof window !== "undefined" && navigator) {
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      if (isMobileDevice) {
+        return `tel:+${WHATSAPP_NUMBER}`;
+      }
+    }
+    return `https://web.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Hi%20Suntrion%20Sales,%20I'd%20like%20to%20get%20a%20quote%20for%20the%20${catalogData[activeCategory].title}%20-%20${activeSub}.`;
+  };
 
-  const handleMobileSelect = (key: string) => {
-    setActiveCategory(key);
-    setOpenAccordion(openAccordion === key ? "" : key);
-  };
+  const handleMobileSelect = (key: string) => {
+    setActiveCategory(key);
+    setOpenAccordion(openAccordion === key ? "" : key);
+  };
 
-  const nextTesti = () => setTestiIndex((prev) => (prev + 1) % instrumentalTestimonials.length);
-  const prevTesti = () => setTestiIndex((prev) => (prev - 1 + instrumentalTestimonials.length) % instrumentalTestimonials.length);
+  const nextTesti = () => setTestiIndex((prev) => (prev + 1) % instrumentalTestimonials.length);
+  const prevTesti = () => setTestiIndex((prev) => (prev - 1 + instrumentalTestimonials.length) % instrumentalTestimonials.length);
 
-  return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#070B13] font-['Outfit'] pb-12 relative">
-      
-      {/* MOBILE MENU TOGGLE */}
-      <div className="lg:hidden fixed top-24 left-6 z-[110]">
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center text-white border border-white/20"
-          style={{ backgroundColor: brandBlue }}
-        >
-          {isMobileMenuOpen ? <CloseIcon size={20} /> : <Menu size={20} />}
-        </motion.button>
-      </div>
+  return (
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#070B13] font-['Outfit'] pb-12 relative">
+      
+      {/* MOBILE MENU TOGGLE */}
+      <div className="lg:hidden fixed top-24 left-6 z-[110]">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center text-white border border-white/20"
+          style={{ backgroundColor: brandBlue }}
+        >
+          {isMobileMenuOpen ? <CloseIcon size={20} /> : <Menu size={20} />}
+        </motion.button>
+      </div>
 
-      <div className="h-20 lg:h-24" />
+      <div className="h-20 lg:h-24" />
 
-      {/* MOBILE MENU OVERLAY */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-[#0A1128]/60 backdrop-blur-sm z-[101] lg:hidden"
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 left-0 w-[85%] sm:w-[350px] h-full bg-white dark:bg-[#0C121D] z-[105] shadow-2xl lg:hidden overflow-y-auto"
-            >
-              <div className="p-8 pt-24">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Inventory Divisions</h3>
-                  <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-300"><CloseIcon size={20}/></button>
-                </div>
-                <div className="divide-y divide-slate-50 border border-slate-100 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
-                  {Object.entries(catalogData).map(([key, cat]) => (
-                    <div key={key}>
-                      <button 
-                        onClick={() => handleMobileSelect(key)} 
-                        className={`w-full flex items-center justify-between p-5 transition-all ${activeCategory === key ? 'bg-blue-50/40' : 'bg-white dark:bg-[#0C121D]'}`}
-                      >
-                        <div className="flex items-center gap-4">
-                          <span style={{ color: activeCategory === key ? brandBlue : '#cbd5e1' }}>{cat.icon}</span>
-                          <span className={`text-xs font-black uppercase tracking-tight ${activeCategory === key ? 'text-[#0A1128] dark:text-white' : 'text-slate-400'}`}>{cat.title}</span>
-                        </div>
-                        {openAccordion === key ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
-                      </button>
-                      <AnimatePresence>
-                        {openAccordion === key && (
-                          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50/30">
-                            {Object.keys(cat.subcategories).map(sub => (
-                              <button 
-                                key={sub} 
-                                onClick={() => {
-                                  setActiveSub(sub);
-                                  setIsMobileMenuOpen(false);
-                                }} 
-                                className={`w-full pl-16 pr-6 py-4 text-left text-[11px] font-bold border-l-4 ${activeSub === sub ? 'border-[#4672A4] text-[#4672A4] bg-white dark:bg-[#0C121D]' : 'border-transparent text-slate-400'}`}
-                              >
-                                {sub}
-                              </button>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* MOBILE MENU OVERLAY */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-[#0A1128]/60 backdrop-blur-sm z-[101] lg:hidden"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 left-0 w-[85%] sm:w-[350px] h-full bg-white dark:bg-[#0C121D] z-[105] shadow-2xl lg:hidden overflow-y-auto"
+            >
+              <div className="p-8 pt-24">
+                <div className="flex justify-between items-center mb-8">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Inventory Divisions</h3>
+                  <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-300"><CloseIcon size={20}/></button>
+                </div>
+                <div className="divide-y divide-slate-50 border border-slate-100 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
+                  {Object.entries(catalogData).map(([key, cat]) => (
+                    <div key={key}>
+                      <button 
+                        onClick={() => handleMobileSelect(key)} 
+                        className={`w-full flex items-center justify-between p-5 transition-all ${activeCategory === key ? 'bg-blue-50/40' : 'bg-white dark:bg-[#0C121D]'}`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <span style={{ color: activeCategory === key ? brandBlue : '#cbd5e1' }}>{cat.icon}</span>
+                          <span className={`text-xs font-black uppercase tracking-tight ${activeCategory === key ? 'text-[#0A1128] dark:text-white' : 'text-slate-400'}`}>{cat.title}</span>
+                        </div>
+                        {openAccordion === key ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
+                      </button>
+                      <AnimatePresence>
+                        {openAccordion === key && (
+                          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50/30">
+                            {Object.keys(cat.subcategories).map(sub => (
+                              <button 
+                                key={sub} 
+                                onClick={() => {
+                                  setActiveSub(sub);
+                                  setIsMobileMenuOpen(false);
+                                }} 
+                                className={`w-full pl-16 pr-6 py-4 text-left text-[11px] font-bold border-l-4 ${activeSub === sub ? 'border-[#4672A4] text-[#4672A4] bg-white dark:bg-[#0C121D]' : 'border-transparent text-slate-400'}`}
+                              >
+                                {sub}
+                              </button>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* HERO BANNER */}
       <div className="relative py-16 lg:py-24 bg-[#0A1128] overflow-hidden">
@@ -1054,110 +1057,110 @@ export default function ProductsCatalog() {
         </div>
       </div>
 
-      {/* MAIN CONTENT WORKSPACE VIEW */}
-      <div id="catalog-main-view" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-20 scroll-mt-28">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          
-          {/* SIDEBAR (Desktop) */}
-          <aside className="hidden lg:block lg:col-span-4 space-y-4">
-            <div className="bg-white dark:bg-[#0C121D] rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-white/5 overflow-hidden sticky top-32">
-              <div className="p-8 border-b border-slate-50 bg-slate-50/50">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Inventory Divisions</h3>
-              </div>
-              <div className="divide-y divide-slate-50">
-                {Object.entries(catalogData).map(([key, cat]) => (
-                  <div key={key}>
-                    <button 
-                      onClick={() => { setOpenAccordion(openAccordion === key ? "" : key); setActiveCategory(key); }} 
-                      className={`w-full flex items-center justify-between p-6 transition-all ${activeCategory === key ? 'bg-blue-50/40' : 'hover:bg-slate-50 dark:bg-[#0C121D]'}`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <span style={{ color: activeCategory === key ? brandBlue : '#cbd5e1' }}>{cat.icon}</span>
-                        <span className={`text-xs font-black uppercase tracking-tight ${activeCategory === key ? 'text-[#0A1128] dark:text-white' : 'text-slate-400'}`}>{cat.title}</span>
-                      </div>
-                      {openAccordion === key ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
-                    </button>
-                    <AnimatePresence>
-                      {openAccordion === key && (
-                        <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50/30">
-                          {Object.keys(cat.subcategories).map(sub => (
-                            <button 
-                                key={sub} 
-                                onClick={() => setActiveSub(sub)} 
-                                className={`w-full pl-16 pr-6 py-4 text-left text-[11px] font-bold transition-all border-l-4 ${activeSub === sub ? 'border-[#4672A4] text-[#4672A4] bg-white dark:bg-[#0C121D] shadow-inner' : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
-                            >
-                                {sub}
-                            </button>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </div>
-            </div>
+      {/* MAIN CONTENT WORKSPACE VIEW */}
+      <div id="catalog-main-view" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-20 scroll-mt-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          
+          {/* SIDEBAR (Desktop) */}
+          <aside className="hidden lg:block lg:col-span-4 space-y-4">
+            <div className="bg-white dark:bg-[#0C121D] rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-white/5 overflow-hidden sticky top-32">
+              <div className="p-8 border-b border-slate-50 bg-slate-50/50">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Inventory Divisions</h3>
+              </div>
+              <div className="divide-y divide-slate-50">
+                {Object.entries(catalogData).map(([key, cat]) => (
+                  <div key={key}>
+                    <button 
+                      onClick={() => { setOpenAccordion(openAccordion === key ? "" : key); setActiveCategory(key); }} 
+                      className={`w-full flex items-center justify-between p-6 transition-all ${activeCategory === key ? 'bg-blue-50/40' : 'hover:bg-slate-50 dark:bg-[#0C121D]'}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <span style={{ color: activeCategory === key ? brandBlue : '#cbd5e1' }}>{cat.icon}</span>
+                        <span className={`text-xs font-black uppercase tracking-tight ${activeCategory === key ? 'text-[#0A1128] dark:text-white' : 'text-slate-400'}`}>{cat.title}</span>
+                      </div>
+                      {openAccordion === key ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
+                    </button>
+                    <AnimatePresence>
+                      {openAccordion === key && (
+                        <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} className="overflow-hidden bg-slate-50/30">
+                          {Object.keys(cat.subcategories).map(sub => (
+                            <button 
+                                key={sub} 
+                                onClick={() => setActiveSub(sub)} 
+                                className={`w-full pl-16 pr-6 py-4 text-left text-[11px] font-bold transition-all border-l-4 ${activeSub === sub ? 'border-[#4672A4] text-[#4672A4] bg-white dark:bg-[#0C121D] shadow-inner' : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
+                            >
+                                {sub}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {/* CONTACT FOR QUOTE SYSTEM */}
-            <div className="bg-white dark:bg-[#0C121D] p-6 rounded-[2rem] border border-slate-100 dark:border-white/5 shadow-xl space-y-3 sticky top-[530px]">
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center mb-1">Procurement & Quotes</p>
-              
-              <motion.button 
-                type="button"
-                whileHover={{ scale: 1.02 }} 
-                onClick={() => {
-                  setQuoteFormSuccess(false);
-                  setQuoteErrorMsg('');
-                  setQuoteFormData({ fullName: '', email: '', role: '', phone: '', message: '' });
-                  setIsQuoteModalOpen(true);
-                }}
-                className="w-full bg-[#4672A4] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
-              >
-                <Mail size={24} /> Email Quote Request
-              </motion.button>
-              
-              <motion.a 
-                whileHover={{ scale: 1.02 }} 
-                href={getDynamicContactLink()} 
-                target="_top"
-                className="w-full bg-[#0A1128] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
-              >
-                <PhoneCall size={24} style={{ color: "#F59E0B" }} /> Connect with Support
-              </motion.a>
-            </div>
-          </aside>
+            {/* CONTACT FOR QUOTE SYSTEM */}
+            <div className="bg-white dark:bg-[#0C121D] p-6 rounded-[2rem] border border-slate-100 dark:border-white/5 shadow-xl space-y-3 sticky top-[530px]">
+              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center mb-1">Procurement & Quotes</p>
+              
+              <motion.button 
+                type="button"
+                whileHover={{ scale: 1.02 }} 
+                onClick={() => {
+                  setQuoteFormSuccess(false);
+                  setQuoteErrorMsg('');
+                  setQuoteFormData({ fullName: '', email: '', role: '', phone: '', message: '' });
+                  setIsQuoteModalOpen(true);
+                }}
+                className="w-full bg-[#4672A4] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
+              >
+                <Mail size={24} /> Email Quote Request
+              </motion.button>
+              
+              <motion.a 
+                whileHover={{ scale: 1.02 }} 
+                href={getDynamicContactLink()} 
+                target="_top"
+                className="w-full bg-[#0A1128] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
+              >
+                <PhoneCall size={24} style={{ color: "#F59E0B" }} /> Connect with Support
+              </motion.a>
+            </div>
+          </aside>
 
-          {/* MAIN CONTENT AREA */}
-          <main className="lg:col-span-8 space-y-12">
-            <div className="bg-white dark:bg-[#0C121D] rounded-[2rem] sm:rounded-[3rem] shadow-sm border border-slate-100 dark:border-white/5 p-6 sm:p-8 lg:p-16 min-h-[500px]">
-              <AnimatePresence mode="wait">
-                <motion.div key={activeCategory + activeSub} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8 lg:space-y-12">
-                  <div 
-                    id={
-                      activeSub === "Imaging Systems" 
-                        ? "imaging-systems" 
-                        : activeSub === "Valve Selection" 
-                        ? "industrial-valves" 
-                        : activeSub === "Ultrasonic Flowmeters" 
-                        ? "analytical-solutions" 
-                        : undefined
-                    }
-                    className="space-y-4 lg:space-y-6 scroll-mt-28"
-                  >
-                    <h2 className="text-2xl lg:text-5xl font-black text-[#0A1128] dark:text-white uppercase tracking-tighter leading-tight">
-                      {activeSub}
-                    </h2>
-                    <div className="w-16 lg:w-20 h-1.5 rounded-full" style={{ backgroundColor: brandBlue }} />
-                  </div>
+          {/* MAIN CONTENT AREA */}
+          <main className="lg:col-span-8 space-y-12">
+            <div className="bg-white dark:bg-[#0C121D] rounded-[2rem] sm:rounded-[3rem] shadow-sm border border-slate-100 dark:border-white/5 p-6 sm:p-8 lg:p-16 min-h-[500px]">
+              <AnimatePresence mode="wait">
+                <motion.div key={activeCategory + activeSub} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8 lg:space-y-12">
+                  <div 
+                    id={
+                      activeSub === "Imaging Systems" 
+                        ? "imaging-systems" 
+                        : activeSub === "Valve Selection" 
+                        ? "industrial-valves" 
+                        : activeSub === "Ultrasonic Flowmeters" 
+                        ? "analytical-solutions" 
+                        : undefined
+                    }
+                    className="space-y-4 lg:space-y-6 scroll-mt-28"
+                  >
+                    <h2 className="text-2xl lg:text-5xl font-black text-[#0A1128] dark:text-white uppercase tracking-tighter leading-tight">
+                      {activeSub}
+                    </h2>
+                    <div className="w-16 lg:w-20 h-1.5 rounded-full" style={{ backgroundColor: brandBlue }} />
+                  </div>
 
-                  {catalogData[activeCategory].subcategories[activeSub]?.intro && (
-                    <p className="text-slate-500 dark:text-slate-400 text-base lg:text-lg leading-relaxed font-medium text-justify">
-                      {catalogData[activeCategory].subcategories[activeSub].intro}
-                    </p>
-                  )}
+                  {catalogData[activeCategory].subcategories[activeSub]?.intro && (
+                    <p className="text-slate-500 dark:text-slate-400 text-base lg:text-lg leading-relaxed font-medium text-justify">
+                      {catalogData[activeCategory].subcategories[activeSub].intro}
+                    </p>
+                  )}
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
-                    {catalogData[activeCategory].subcategories[activeSub]?.items?.map((item, idx) => (
-                      <motion.div 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+                    {catalogData[activeCategory].subcategories[activeSub]?.items?.map((item, idx) => (
+                      <motion.div 
                         key={idx} 
                         whileHover={{ x: 5 }} 
                         onClick={() => {
@@ -1169,40 +1172,40 @@ export default function ProductsCatalog() {
                         }}
                         className="flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-[#F8FAFC] dark:bg-[#070B13] rounded-xl lg:rounded-2xl border border-slate-100 dark:border-white/5 group hover:border-blue-200 transition-all cursor-pointer"
                       >
-                        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl bg-white dark:bg-[#0C121D] shadow-sm flex items-center justify-center text-[#4672A4] group-hover:bg-[#4672A4] group-hover:text-white transition-all">
-                          {item.icon}
-                        </div>
-                        <span className="text-[10px] lg:text-xs font-black text-[#0A1128] dark:text-white uppercase tracking-tight">{item.name}</span>
-                      </motion.div>
-                    ))}
-                  </div>
+                        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg lg:rounded-xl bg-white dark:bg-[#0C121D] shadow-sm flex items-center justify-center text-[#4672A4] group-hover:bg-[#4672A4] group-hover:text-white transition-all">
+                          {item.icon}
+                        </div>
+                        <span className="text-[10px] lg:text-xs font-black text-[#0A1128] dark:text-white uppercase tracking-tight">{item.name}</span>
+                      </motion.div>
+                    ))}
+                  </div>
 
-                  {catalogData[activeCategory].subcategories[activeSub]?.datasheets && (
-                    <div className="mt-6 lg:mt-8 space-y-4">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 underline decoration-[#4672A4] underline-offset-8">
-                          Technical Documentation
-                      </h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {catalogData[activeCategory].subcategories[activeSub].datasheets.map(file => (
-                          <div key={file} className="flex items-center gap-4 p-4 border border-dashed border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:bg-[#0C121D] transition-all cursor-pointer">
-                            <FileText size={18} className="text-red-400" />
+                  {catalogData[activeCategory].subcategories[activeSub]?.datasheets && (
+                    <div className="mt-6 lg:mt-8 space-y-4">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 underline decoration-[#4672A4] underline-offset-8">
+                          Technical Documentation
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {catalogData[activeCategory].subcategories[activeSub].datasheets.map(file => (
+                          <div key={file} className="flex items-center gap-4 p-4 border border-dashed border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:bg-[#0C121D] transition-all cursor-pointer">
+                            <FileText size={18} className="text-red-400" />
                             <span className="text-[10px] lg:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">{file}</span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                  {catalogData[activeCategory].subcategories[activeSub]?.footer && (
-                    <div className="p-6 lg:p-8 bg-blue-50/50 rounded-2xl lg:rounded-3xl border border-blue-100/50 mt-8 lg:mt-10">
-                      <p className="text-xs lg:text-sm text-[#4672A4] font-bold leading-relaxed">
-                          {catalogData[activeCategory].subcategories[activeSub].footer}
-                      </p>
-                    </div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                  {catalogData[activeCategory].subcategories[activeSub]?.footer && (
+                    <div className="p-6 lg:p-8 bg-blue-50/50 rounded-2xl lg:rounded-3xl border border-blue-100/50 mt-8 lg:mt-10">
+                      <p className="text-xs lg:text-sm text-[#4672A4] font-bold leading-relaxed">
+                          {catalogData[activeCategory].subcategories[activeSub].footer}
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             {/* PROCUREMENT & QUOTES CARD FOR MOBILE */}
             <div className="lg:hidden bg-white dark:bg-[#0C121D] p-8 rounded-[2rem] border border-slate-100 dark:border-white/5 shadow-xl space-y-4 mt-8">
@@ -1231,113 +1234,113 @@ export default function ProductsCatalog() {
               </div>
             </div>
 
-            {/* TESTIMONIALS SECTION */}
-            <div className="space-y-8">
-              <div className="flex items-center gap-4">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
-                  Global Validation & Success Stories
-                </h3>
-                <div className="h-px flex-grow bg-slate-100 dark:bg-white/5" />
-              </div>
+            {/* TESTIMONIALS SECTION */}
+            <div className="space-y-8">
+              <div className="flex items-center gap-4">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
+                  Global Validation & Success Stories
+                </h3>
+                <div className="h-px flex-grow bg-slate-100 dark:bg-white/5" />
+              </div>
 
-              <div className="relative overflow-hidden py-4">
-                <AnimatePresence mode="wait">
-                  <motion.div 
-                    key={testiIndex}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x < -50) nextTesti();
-                      if (info.offset.x > 50) prevTesti();
-                    }}
-                    className="bg-white dark:bg-[#0C121D] p-8 lg:p-12 rounded-[2.5rem] border border-slate-100 dark:border-white/5 shadow-sm flex flex-col relative cursor-grab active:cursor-grabbing min-h-[300px]"
-                  >
-                    <Quote className="absolute top-8 right-10 opacity-5" size={60} style={{ color: brandBlue }} />
-                    
-                    <div className="absolute top-8 right-8 flex gap-2">
-                      <button type="button" onClick={prevTesti} className="p-2.5 rounded-full bg-slate-50 dark:bg-[#0C121D] text-slate-400 hover:bg-[#4672A4] hover:text-white transition-all shadow-sm"><ChevronLeft size={16}/></button>
-                      <button type="button" onClick={nextTesti} className="p-2.5 rounded-full bg-slate-50 dark:bg-[#0C121D] text-slate-400 hover:bg-[#4672A4] hover:text-white transition-all shadow-sm"><ChevronRight size={16}/></button>
-                    </div>
+              <div className="relative overflow-hidden py-4">
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={testiIndex}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    onDragEnd={(_, info) => {
+                      if (info.offset.x < -50) nextTesti();
+                      if (info.offset.x > 50) prevTesti();
+                    }}
+                    className="bg-white dark:bg-[#0C121D] p-8 lg:p-12 rounded-[2.5rem] border border-slate-100 dark:border-white/5 shadow-sm flex flex-col relative cursor-grab active:cursor-grabbing min-h-[300px]"
+                  >
+                    <Quote className="absolute top-8 right-10 opacity-5" size={60} style={{ color: brandBlue }} />
+                    
+                    <div className="absolute top-8 right-8 flex gap-2">
+                      <button type="button" onClick={prevTesti} className="p-2.5 rounded-full bg-slate-50 dark:bg-[#0C121D] text-slate-400 hover:bg-[#4672A4] hover:text-white transition-all shadow-sm"><ChevronLeft size={16}/></button>
+                      <button type="button" onClick={nextTesti} className="p-2.5 rounded-full bg-slate-50 dark:bg-[#0C121D] text-slate-400 hover:bg-[#4672A4] hover:text-white transition-all shadow-sm"><ChevronRight size={16}/></button>
+                    </div>
 
-                    <div className="flex items-center gap-3 mb-6 text-[#4672A4]">
-                      <div className="p-3 bg-blue-50 rounded-2xl">
-                        {instrumentalTestimonials[testiIndex].icon}
-                      </div>
-                      <div className="flex gap-1">
-                        {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={brandBlue} color={brandBlue} />)}
-                      </div>
-                    </div>
-                    
-                    <p className="text-lg lg:text-xl font-medium text-slate-500 dark:text-slate-400 leading-relaxed mb-10 pr-4 lg:pr-20">
-                      "{instrumentalTestimonials[testiIndex].text}"
-                    </p>
-                    
-                    <div className="mt-auto flex justify-between items-end">
-                      <div>
-                        <h4 className="text-sm font-black uppercase tracking-widest text-[#0A1128] dark:text-white">{instrumentalTestimonials[testiIndex].client}</h4>
-                        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-tighter mt-1">{instrumentalTestimonials[testiIndex].location}</p>
-                      </div>
-                      
-                      <div className="flex gap-1.5 pb-1">
-                        {instrumentalTestimonials.map((_, i) => (
-                          <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === testiIndex ? 'w-6 bg-[#4672A4]' : 'w-2 bg-slate-200'}`} />
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
+                    <div className="flex items-center gap-3 mb-6 text-[#4672A4]">
+                      <div className="p-3 bg-blue-50 rounded-2xl">
+                        {instrumentalTestimonials[testiIndex].icon}
+                      </div>
+                      <div className="flex gap-1">
+                        {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={brandBlue} color={brandBlue} />)}
+                      </div>
+                    </div>
+                    
+                    <p className="text-lg lg:text-xl font-medium text-slate-500 dark:text-slate-400 leading-relaxed mb-10 pr-4 lg:pr-20">
+                      "{instrumentalTestimonials[testiIndex].text}"
+                    </p>
+                    
+                    <div className="mt-auto flex justify-between items-end">
+                      <div>
+                        <h4 className="text-sm font-black uppercase tracking-widest text-[#0A1128] dark:text-white">{instrumentalTestimonials[testiIndex].client}</h4>
+                        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-tighter mt-1">{instrumentalTestimonials[testiIndex].location}</p>
+                      </div>
+                      
+                      <div className="flex gap-1.5 pb-1">
+                        {instrumentalTestimonials.map((_, i) => (
+                          <div key={i} className={`h-1 rounded-full transition-all duration-300 ${i === testiIndex ? 'w-6 bg-[#4672A4]' : 'w-2 bg-slate-200'}`} />
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
 
-      {/* --- INFINITE CLIENTELE MARQUEE --- */}
-      <div className="max-w-7xl mx-auto px-6 mt-16 border-t border-slate-100 dark:border-white/5 pt-16">
-        <h3 className="text-center text-xs font-black uppercase tracking-widest text-slate-400 mb-12">
-          Our Elite Corporate Clientele
-        </h3>
-        
-        <div className="relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-24 before:bg-gradient-to-r before:from-[#F8FAFC] dark:before:from-[#070B13] before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-24 after:bg-gradient-to-l after:from-[#F8FAFC] dark:after:from-[#070B13] after:to-transparent">
-          
-          <motion.div 
-            className="flex gap-20 items-center w-max"
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{
-              ease: "linear",
-              duration: 25, 
-              repeat: Infinity,
-            }}
-          >
-            {[...clientLogos, ...clientLogos].map((logo, index) => (
-              <div 
-                key={index} 
-                className="w-40 h-20 bg-white dark:bg-white/95 border border-slate-100 dark:border-white/10 rounded-2xl p-3 flex items-center justify-center transition-transform duration-300 hover:scale-105 select-none"
-              >
-                <img 
-                  src={logo.src} 
-                  alt={logo.name} 
-                  className="max-w-full max-h-full object-contain mix-blend-multiply"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                    const sibling = target.parentElement?.querySelector('span');
-                    if (sibling) {
-                      sibling.style.display = 'block';
-                    }
-                  }}
-                />
-                <span className="hidden text-xs font-bold text-slate-400 text-center uppercase tracking-tight">
-                  {logo.name}
-                </span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
+      {/* --- INFINITE CLIENTELE MARQUEE --- */}
+      <div className="max-w-7xl mx-auto px-6 mt-16 border-t border-slate-100 dark:border-white/5 pt-16">
+        <h3 className="text-center text-xs font-black uppercase tracking-widest text-slate-400 mb-12">
+          Our Elite Corporate Clientele
+        </h3>
+        
+        <div className="relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-24 before:bg-gradient-to-r before:from-[#F8FAFC] dark:before:from-[#070B13] before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-24 after:bg-gradient-to-l after:from-[#F8FAFC] dark:after:from-[#070B13] after:to-transparent">
+          
+          <motion.div 
+            className="flex gap-20 items-center w-max"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{
+              ease: "linear",
+              duration: 25, 
+              repeat: Infinity,
+            }}
+          >
+            {[...clientLogos, ...clientLogos].map((logo, index) => (
+              <div 
+                key={index} 
+                className="w-40 h-20 bg-white dark:bg-white/95 border border-slate-100 dark:border-white/10 rounded-2xl p-3 flex items-center justify-center transition-transform duration-300 hover:scale-105 select-none"
+              >
+                <img 
+                  src={logo.src} 
+                  alt={logo.name} 
+                  className="max-w-full max-h-full object-contain mix-blend-multiply"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const sibling = target.parentElement?.querySelector('span');
+                    if (sibling) {
+                      sibling.style.display = 'block';
+                    }
+                  }}
+                />
+                <span className="hidden text-xs font-bold text-slate-400 text-center uppercase tracking-tight">
+                  {logo.name}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
 
       {/* --- QUOTE REQUEST FORM MODAL --- */}
       <AnimatePresence>
@@ -1463,6 +1466,6 @@ export default function ProductsCatalog() {
         )}
       </AnimatePresence>
 
-    </div>
-  );
+    </div>
+  );
 }

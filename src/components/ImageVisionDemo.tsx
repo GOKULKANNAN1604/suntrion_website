@@ -1,13 +1,9 @@
-// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { 
-  ArrowLeft, ArrowRight, Layers, Box, Activity, 
-  Disc, Scissors, Quote, Star, ChevronLeft, ChevronRight, Cpu, Zap, 
-  MailCheck, Loader2, Monitor, Sparkles} from 'lucide-react';
+  Quote, Star, ChevronLeft, ChevronRight, Cpu, Zap, Monitor, Activity 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import AdvancedDicomPrinting from './AdvancedDicomPrinting';
 import ImagingTools from './ImagingTools';
 import PrintingTools from './PrintingTools';
 
@@ -34,55 +30,10 @@ const imageVisionTestimonials = [
 
 export default function ImageVisionDemo() {
 
-  const [step, setStep] = useState<number>(1);
-    const [selectedDate, setSelectedDate] = useState<number | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [testiIndex, setTestiIndex] = useState<number>(0);
-  
-  
-  const [sliceDepth] = useState<number>(64);
-  const [activePanel, setActivePanel] = useState<string>("AXIAL");
-  const [measurementMode, setMeasurementMode] = useState<boolean>(true);
-  const [gridMode, setGridMode] = useState<boolean>(true);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0, show: false });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.floor(e.clientX - rect.left);
-    const y = Math.floor(e.clientY - rect.top);
-    setMousePos({ x, y, show: true });
-  };
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const handleMouseLeave = () => {
-    setMousePos(prev => ({ ...prev, show: false }));
-  };
-
-  const brandBlue = "#4672A4"; 
-
-  const [viewDate, setViewDate] = useState<Date>(new Date(2026, 4, 1)); // May 2026
-
-  const handlePrevMonth = (): void => {
-    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1));
-    setSelectedDate(null);
-    setSelectedTime(null);
-  };
-
-  const handleNextMonth = (): void => {
-    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
-    setSelectedDate(null);
-    setSelectedTime(null);
-  };
-
-  useEffect(() => { window.scrollTo(0, 0); }, [step]);
-
-    
-  // Updated specification boxes with Image Fusion removed
-  const specs = [
-    { label: "Core View", value: "Fluid Zoom, Pan & Filters", icon: <Monitor size={18} /> },
-    { label: "3D Rendering", value: "MPR, MIP & Volume Rendering", icon: <Box size={18} /> }
-  ];
-
-  
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } }
@@ -229,7 +180,7 @@ export default function ImageVisionDemo() {
             <div className="flex-1 h-px bg-slate-200 dark:bg-white/5" />
           </div>
 
-          <div className="bg-white dark:bg-[#0A1128] rounded-[3rem] border border-slate-100 dark:border-white/5 p-10 md:p-14 shadow-[0_10px_40px_rgba(0,0,0,0.03)] dark:shadow-2xl relative overflow-hidden">
+          <div className="bg-white dark:bg-[#0A1128] rounded-2xl border border-slate-100 dark:border-white/5 p-6 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.03)] dark:shadow-2xl relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={testiIndex}

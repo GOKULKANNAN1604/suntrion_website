@@ -1,220 +1,351 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Cloud,
   Monitor,
+  FileText,
   Stethoscope,
   Factory,
   FlaskConical,
   ArrowRight,
-  Code2,
-  Settings,
-  Activity
+  Activity,
+  Laptop,
+  Wrench
 } from 'lucide-react';
-
-// Explicit interfaces for type safety
-interface InstrumentalSolution {
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-  href: string;
-}
-
-interface SoftwareSolution {
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-  href?: string;
-  comingSoon?: boolean;
-}
 
 export default function Solutions() {
   const brandBlue = "#4672A4";
+  const brandOrange = "#F59E0B";
 
-  // Stagger entry animations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+  // --- CATEGORY STATE ---
+  const [activeCategory, setActiveCategory] = useState<'software' | 'instrumentation'>('software');
+
+  const handleCategoryChange = (category: 'software' | 'instrumentation') => {
+    setActiveCategory(category);
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 45, scale: 0.96 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { 
-        type: "spring" as const,
-        stiffness: 80,
-        damping: 15,
-        mass: 0.9
-      } 
-    }
-  };
-
-  // Instrumental solutions mapped to deep hash landing sections
-  const instrumentalSolutions: InstrumentalSolution[] = [
+  // Software Solutions Grid Config
+  const softwareSolutions = [
     {
-      title: "MEDICAL",
-      desc: "Turnkey medical projects and construction of pharmaceutical production units.",
-      icon: <Stethoscope size={28} />,
-      href: "/solutions-catalog#imaging-systems"
+      id: 'pacs',
+      title: 'SunVista PACS',
+      subtitle: 'Cloud-native Picture Archiving & PACS suite',
+      category: 'Software Suite',
+      description: 'Picture Archiving and Communication System designed for zero-latency medical diagnostic streaming and robust teleradiology workflows.',
+      ctaText: 'Access Live Stream',
+      ctaLink: '/book-demo',
+      image: '/ct_3dvr.png',
+      icon: Cloud
     },
     {
-      title: "INDUSTRIAL",
-      desc: "Specialized valves representing global leaders like Somas, Tomoe, and Tecofi.",
-      icon: <Factory size={28} />,
-      href: "/solutions-catalog#industrial-valves"
+      id: 'imagevision',
+      title: 'ImageVision',
+      subtitle: 'Advanced 3D Volume Workstation',
+      category: '3D Workstation',
+      description: 'Advanced diagnostic workstation supporting 3D volume reconstruction, MIP (Maximum Intensity Projection) overlays, and interactive measurement tools.',
+      ctaText: 'Interactive Demo',
+      ctaLink: '/imagevision-demo',
+      image: '/imagevision_render.png',
+      icon: Monitor
     },
     {
-      title: "ANALYTICAL",
-      desc: "FUJI Ultrasonic analysers for liquid density measurements in dye manufacturing.",
-      icon: <FlaskConical size={28} />,
-      href: "/solutions-catalog#analytical-solutions"
+      id: 'sonovista',
+      title: 'SonoVista',
+      subtitle: 'Ultrasound Workspace & Reporting',
+      category: 'Ultrasound Workspace',
+      description: 'Structured clinical reporting and image management workspace designed to optimize clinical ultrasound reporting workflows.',
+      ctaText: 'Structured Reports',
+      ctaLink: '/sonovista',
+      image: '/sonovista_dashboard.png',
+      icon: FileText
     }
   ];
 
-  const softwareSolutions: SoftwareSolution[] = [
+  // Instrumentation modules config (Static with neat images)
+  const instrumentationModules = [
     {
-      title: "SUNVISTA",
-      desc: "Cloud-native PACS platform for zero-latency diagnostic streaming and teleradiology.",
-      icon: <Cloud size={28} />,
-      href: "/book-demo"
+      id: 'medical',
+      title: 'Medical Systems',
+      subtitle: 'Turnkey Clinical Infrastructure & Pipelines',
+      category: 'Instrumentation',
+      description: 'End-to-end turnkey medical projects, hospital gas pipelines, and the design and construction of pharmaceutical production cleanrooms.',
+      ctaText: 'Inquire Project',
+      ctaLink: '/solutions-catalog#imaging-systems',
+      image: '/medical_dashboard.png',
+      icon: Stethoscope
     },
     {
-      title: "IMAGEVISION",
-      desc: "Standalone DICOM suite for 3D Volume Rendering and advanced MPR analysis.",
-      icon: <Monitor size={28} />,
-      href: "/imagevision-demo"
+      id: 'valves',
+      title: 'Industrial Valves',
+      subtitle: 'Somas, Tomoe, and Tecofi Systems',
+      category: 'Flow Control',
+      description: 'Specialized industrial valves and engineering support representing global leaders Somas, Tomoe, and Tecofi for high-pressure control lines.',
+      ctaText: 'Explore Catalog',
+      ctaLink: '/solutions-catalog#industrial-valves',
+      image: '/industrial_precision.png',
+      icon: Factory
     },
     {
-      title: "SONOVISTA",
-      desc: "SonoVista is a comprehensive ultrasound workspace dedicated to structured reporting and image manipulation.",
-      icon: (
-        <svg viewBox="0 0 122.48 122.88" className="w-7 h-7" fill="currentColor">
-          <g>
-            <path d="M18.04,75.16c0.16-0.4,0.33-0.81,0.51-1.22c0.42-0.94,0.87-1.85,1.36-2.72c0.67-1.21,1.4-2.38,2.16-3.49 c0.84-1.23,1.74-2.41,2.64-3.52c0.51-0.63,1.22-0.99,1.97-1.06c0.74-0.08,1.51,0.13,2.14,0.64c0.63,0.51,0.99,1.22,1.06,1.97 c0.08,0.74-0.13,1.51-0.64,2.14c-0.82,1.01-1.62,2.06-2.35,3.12c-0.66,0.97-1.3,1.98-1.89,3.04c-0.49,0.88-0.93,1.77-1.31,2.67 c-0.32,0.77-0.6,1.54-0.83,2.32l0,0.06c-0.01,0.14-0.02,0.25-0.04,0.35l-0.01,0.04c-0.92,6.79-0.94,12.59-0.11,17.44 c0.82,4.77,2.46,8.61,4.9,11.58c2.41,2.93,5.65,5.07,9.69,6.47c4.11,1.42,9.05,2.09,14.78,2.06l0.07-0.01 c3.53-0.3,6.87-0.77,10.02-1.41c3.19-0.65,6.21-1.48,9.07-2.48c2.81-0.99,5.48-2.15,8.01-3.5c2.52-1.34,4.88-2.85,7.07-4.52 c2.94-2.25,5.92-5.02,8.59-8.13c2.42-2.81,4.58-5.9,6.26-9.15c1.46-2.82,2.53-5.74,3.07-8.68c0.48-2.65,0.52-5.33-0.01-7.97 l-0.03-0.22l-0.28-1.38c-0.57-2.83-0.97-4.81-1.15-6.27c-0.21-1.67-0.17-2.85,0.16-3.98c0.48-1.64,1.32-2.55,2.71-4.05l0.06-0.07 c1.12-1.21,2.7-2.93,4.77-5.92c0.78-1.13,1.5-2.26,2.15-3.39l0.06-0.1c0.61-1.06,1.15-2.12,1.61-3.17 c0.47-1.04,0.86-2.08,1.18-3.12c0.32-1.02,0.56-2.03,0.73-3.02c0.63-3.74,0.55-7.25-0.09-10.47c-0.69-3.41-2.02-6.51-3.85-9.18 c-0.94-1.37-2-2.63-3.17-3.77c-1.18-1.15-2.47-2.17-3.85-3.06c-1.38-0.89-2.84-1.63-4.36-2.22c-1.51-0.58-3.08-1.02-4.7-1.29 c-3.06-0.52-6.28-0.44-9.51,0.31c-3.05,0.71-6.1,2.03-9.04,4.03c-1.49,1.02-2.77,2.13-3.85,3.35c-1.06,1.2-1.94,2.48-2.66,3.87 l-0.07,0.14c-0.74,1.45-1.32,3.03-1.79,4.75c-0.47,1.76-0.82,3.66-1.05,5.71c-0.28,2.43-0.5,4.85-0.57,7.2 c-0.07,2.36,0,4.69,0.29,6.95c0.16,1.25,0.39,2.51,0.71,3.77c0.29,1.16,0.66,2.3,1.11,3.41l0.1,0.15l0,0 c0.09,0.14,0.17,0.29,0.24,0.44c0.02,0.05,0.04,0.1,0.05,0.15c0.04,0.11,0.07,0.21,0.1,0.31l0.04,0.17c0.31,0.66,0.64,1.29,1,1.9 c0.39,0.67,0.84,1.34,1.33,2.02c0.48,0.65,0.96,1.19,1.44,1.62c0.46,0.41,0.92,0.71,1.38,0.92c0.41,0.19,0.82,0.3,1.25,0.34 c0.45,0.04,0.92,0.01,1.41-0.1c0.79-0.17,1.57-0.01,2.2,0.39c0.63,0.4,1.11,1.04,1.28,1.83c0.16,0.74,0.03,1.47-0.32,2.08l0,0 c-0.34,0.59-0.88,1.06-1.56,1.3l-0.08,0.03c-2.12,0.69-4.14,1.42-6.05,2.2c-1.9,0.78-3.74,1.63-5.5,2.56 c-1.72,0.91-3.32,1.87-4.8,2.91c-1.46,1.02-2.82,2.13-4.06,3.31l0,0c-0.04,0.04-0.09,0.08-0.13,0.12 c-0.56,0.49-1.27,0.73-1.97,0.71c-0.74-0.01-1.48-0.31-2.03-0.87l0,0c-0.04-0.04-0.08-0.09-0.12-0.13 c-0.49-0.56-0.73-1.27-0.71-1.97l0-0.02c0.02-0.74,0.32-1.48,0.89-2.03c1.45-1.39,3.04-2.68,4.76-3.89c1.71-1.2,3.53-2.3,5.45-3.31 c1.11-0.59,2.26-1.15,3.42-1.68c0.39-0.18,0.79-0.36,1.2-0.53l-0.04-0.04c-0.7-0.65-1.38-1.42-2.02-2.29 c-0.5-0.68-0.97-1.38-1.41-2.09c-0.18-0.3-0.36-0.6-0.53-0.91c-1.45,0.66-2.86,1.34-4.24,2.05c-1.76,0.9-3.49,1.86-5.21,2.9 c-1.83,1.11-3.6,2.31-5.33,3.61c-1.62,1.22-3.18,2.53-4.67,3.94c-0.42,1.37-0.91,2.73-1.43,4.05c-0.58,1.47-1.17,2.81-1.73,4.04 c-1.78,3.95-2.41,6.72-2.19,8.61c0.17,1.48,0.96,2.33,2.14,2.74c1.74,0.61,4.18,0.62,6.92,0.28c2.87-0.35,6.01-1.07,9.01-1.89 c0.71-0.19,1.44-0.41,2.19-0.65c0.74-0.24,1.45-0.49,2.15-0.75c0.71-0.27,1.4-0.55,2.08-0.84c0.66-0.28,1.34-0.6,2.06-0.96 c0.72-0.36,1.52-0.39,2.23-0.15c0.71,0.24,1.32,0.75,1.68,1.47c0.36,0.72,0.39,1.52,0.15,2.23c-0.24,0.71-0.75,1.32-1.47,1.68 c-0.79,0.39-1.56,0.75-2.31,1.07c-0.73,0.31-1.52,0.63-2.38,0.95c-0.8,0.3-1.59,0.58-2.38,0.83c-0.79,0.25-1.61,0.5-2.46,0.73 c-3.37,0.92-6.92,1.73-10.21,2.09c-3.42,0.38-6.61,0.29-9.17-0.6c-3.07-1.07-5.24-3.08-5.94-6.43c-0.64-3.07,0.05-7.24,2.58-12.83 c0.95-2.1,1.96-4.44,2.71-6.78c0.75-2.31,1.27-4.65,1.27-6.82c0.01-1.91-0.41-3.73-1.49-5.3c-1.1-1.6-2.91-2.99-5.68-4.02 c-0.78-0.29-1.62-0.43-2.53-0.43c-0.94,0-1.96,0.17-3.07,0.48c-1.22,0.35-2.5,0.88-3.84,1.58c-1.33,0.69-2.74,1.57-4.22,2.62 l-3.41,5.73c-0.41,0.69-1.06,1.15-1.79,1.34c-0.72,0.19-1.52,0.1-2.21-0.31c-0.69-0.41-1.15-1.06-1.34-1.79 c-0.19-0.72-0.1-1.52,0.31-2.21l2.17-3.66l-0.19-0.05c-0.49-0.13-0.97-0.22-1.44-0.27c-0.45-0.05-0.9-0.05-1.36-0.02 c-1.09,0.09-2.02,0.35-2.8,0.73c-0.79,0.39-1.43,0.94-1.93,1.58c-0.41,0.53-0.72,1.14-0.95,1.81c-0.24,0.7-0.37,1.47-0.41,2.28 c-0.04,0.86,0.04,1.77,0.23,2.7c0.19,0.92,0.5,1.86,0.92,2.8c0.89,1.97,2.28,3.89,4.18,5.55c1.74,1.52,3.9,2.82,6.5,3.74 L18.04,75.16L18.04,75.16z M63.62,50.21c-0.29-0.87-0.53-1.76-0.75-2.65c-0.32-1.33-0.56-2.68-0.73-4.03 c-0.33-2.58-0.41-5.19-0.34-7.79c0.07-2.62,0.3-5.2,0.59-7.75c0.27-2.36,0.68-4.57,1.24-6.63c0.57-2.08,1.3-4.03,2.25-5.87 l0.01-0.02c0.95-1.85,2.11-3.57,3.51-5.14c1.4-1.58,3.04-3.01,4.94-4.31c3.57-2.43,7.3-4.04,11.04-4.91 c3.98-0.92,7.95-1.01,11.75-0.37c2,0.34,3.96,0.88,5.84,1.61c1.9,0.74,3.71,1.66,5.41,2.75c1.7,1.09,3.3,2.36,4.77,3.79 c1.45,1.41,2.76,2.97,3.92,4.66c2.24,3.29,3.89,7.09,4.74,11.27c0.8,3.92,0.9,8.16,0.14,12.64c-0.21,1.25-0.51,2.5-0.91,3.77 l-0.02,0.07c-0.39,1.23-0.86,2.47-1.42,3.73c-0.57,1.27-1.21,2.53-1.93,3.78c-0.71,1.24-1.52,2.52-2.43,3.82 c-2.37,3.42-4.11,5.3-5.33,6.62l-0.06,0.07c-0.44,0.48-0.8,0.86-1.02,1.15c-0.18,0.22-0.29,0.4-0.33,0.53 c-0.1,0.35-0.08,0.96,0.08,2.01c0.19,1.29,0.53,3,1.02,5.45l0.28,1.39l0.02,0.06c0.01,0.05,0.02,0.1,0.03,0.16l0,0 c0.67,3.35,0.63,6.71,0.04,10.02c-0.64,3.58-1.92,7.1-3.65,10.45c-1.88,3.65-4.31,7.11-6.99,10.25c-2.96,3.45-6.25,6.52-9.5,9 c-2.44,1.86-5.06,3.54-7.85,5.03c-2.78,1.48-5.73,2.77-8.85,3.86c-3.1,1.09-6.37,1.98-9.81,2.69c-3.45,0.7-7.03,1.21-10.76,1.53 c-0.08,0.01-0.16,0.01-0.23,0l-0.01,0c-6.6,0.06-12.34-0.74-17.19-2.46c-4.95-1.76-8.98-4.47-12.04-8.2 c-2.96-3.6-4.97-8.09-6.01-13.54c-0.97-5.07-1.09-10.98-0.33-17.75l0,0l-0.11-0.05l-0.37-0.14l-0.53-0.19 c-3.36-1.2-6.18-2.9-8.46-4.91c-2.53-2.22-4.4-4.82-5.6-7.5c-0.6-1.33-1.04-2.69-1.32-4.05c-0.28-1.38-0.4-2.76-0.34-4.08 c0.06-1.39,0.3-2.73,0.73-3.97c0.43-1.24,1.03-2.4,1.82-3.43c1-1.31,2.29-2.41,3.85-3.21c1.46-0.75,3.14-1.23,5.03-1.39 c0.79-0.06,1.59-0.05,2.4,0.03c0.78,0.08,1.57,0.23,2.36,0.44l0.01,0c0.63,0.16,1.23,0.36,1.81,0.57l0.12,0.05 c0.31,0.12,0.61,0.24,0.9,0.36c1.41-0.94,2.77-1.74,4.09-2.4c1.56-0.79,3.07-1.39,4.51-1.81l0.12-0.03 c1.62-0.46,3.17-0.68,4.66-0.67c1.56,0.01,3.05,0.28,4.46,0.8c4.12,1.54,6.86,3.7,8.58,6.26c1.57,2.34,2.27,4.96,2.38,7.71 c0.36-0.27,0.72-0.54,1.09-0.8c-0.11-8.34-1.66-13.19-4-16.28c-2.36-3.12-5.7-4.57-9.19-6.09c-4.42-1.93-9.06-3.95-13.02-8.69 c-3.91-4.68-7.04-11.93-8.41-24.22c-0.09-0.8,0.16-1.56,0.63-2.15c0.47-0.58,1.16-0.99,1.96-1.08c0.8-0.09,1.56,0.16,2.15,0.63 c0.58,0.47,0.99,1.16,1.08,1.96c1.2,10.8,3.83,17.05,7.09,20.99c3.2,3.87,7.12,5.58,10.86,7.21c4.17,1.82,8.15,3.55,11.26,7.38 c2.8,3.45,4.77,8.49,5.31,16.65c1.43-0.84,2.9-1.64,4.41-2.41C60.53,51.66,62.06,50.93,63.62,50.21L63.62,50.21z" />
-          </g>
-        </svg>
-      ),
-      href: "/sonovista"
+      id: 'density',
+      title: 'Liquid Density Analysers',
+      subtitle: 'Fuji Density Meters & Process Controls',
+      category: 'Analytical Systems',
+      description: 'Authorized partners of FUJI Ultrasonic density meters for real-time measurements in dye manufacturing and process control. Perfect for chemicals, textiles, and heavy industrial fluids.',
+      ctaText: 'Inquire Specifications',
+      ctaLink: '/solutions-catalog#analytical-solutions',
+      image: '/industrial_dashboard.png',
+      icon: FlaskConical
     }
   ];
+
+  // Dynamic Theme Styling Constants
+  const isSoftware = activeCategory === 'software';
+  const activeGradient = isSoftware 
+    ? 'from-[#4672A4] via-blue-500 to-cyan-400' 
+    : 'from-[#F59E0B] via-amber-500 to-orange-500';
 
   return (
-    <section id="solutions" className="py-24 bg-[#F8FAFC] dark:bg-[#070B13] font-['Outfit'] scroll-mt-24 transition-colors duration-300">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+    <section id="solutions" className="py-24 bg-slate-100/70 dark:bg-[#0C121D] font-['Outfit'] scroll-mt-24 transition-colors duration-300 relative overflow-hidden">
+      {/* Visual background lights */}
+      <div className={`absolute top-1/4 right-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none transition-all duration-500 ${
+        isSoftware ? 'bg-blue-500/5' : 'bg-amber-500/5'
+      }`} />
+      <div className={`absolute bottom-1/4 left-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none transition-all duration-500 ${
+        isSoftware ? 'bg-cyan-500/5' : 'bg-orange-500/5'
+      }`} />
 
-        {/* --- MAIN BRAND HEADLINE --- */}
-        <div className="mb-24 text-center flex flex-col items-center">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-8 relative z-10">
+
+        {/* --- SECTION HEADER --- */}
+        <div className="mb-12 text-center flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-white/5 border border-blue-100 dark:border-white/5 mb-6"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#4672A4]/10 border border-[#4672A4]/25 mb-6"
           >
             <Activity size={14} style={{ color: brandBlue }} />
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: brandBlue }}>Our Expertise</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: brandBlue }}>Enterprise Capabilities</span>
           </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-7xl font-medium tracking-tight leading-tight uppercase"
-            style={{ color: brandBlue }}
+            className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-none text-slate-900 dark:text-white uppercase max-w-4xl"
           >
-            One Company. <span className="font-black">Multiple Powerful Solutions.</span>
+            One Integrated Ecosystem.<br />
+            <span className={`bg-clip-text text-transparent bg-gradient-to-r ${activeGradient} transition-all duration-500`}>
+              Multiple Powerful Solutions.
+            </span>
           </motion.h2>
 
-          <div className="w-16 h-1 mt-8 rounded-full opacity-40" style={{ backgroundColor: brandBlue }} />
+          <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base lg:text-lg max-w-2xl mt-5">
+            Select a solution suite to view customized clinical software consoles and industrial equipment configurations.
+          </p>
         </div>
 
-        {/* --- SECTION 1: INSTRUMENTAL SOLUTIONS --- */}
-        <div className="mb-32">
-          <div className="mb-12 flex flex-col items-center lg:items-start">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Settings size={16} style={{ color: brandBlue }} />
-              <h3 className="text-xl font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Instrumentation Solutions</h3>
-            </div>
-            <div className="h-px w-full bg-slate-200 dark:bg-white/5" />
-          </div>
+        {/* --- SEGMENTED SWITCH SELECTOR --- */}
+        <div className="flex justify-center mb-16">
+          <div className="bg-slate-200/60 dark:bg-[#0C121D]/80 border border-slate-300/40 dark:border-white/5 rounded-full p-1.5 flex gap-2 w-full max-w-[520px] shadow-inner relative z-20">
+            
+            {/* Toggle Software Solutions */}
+            <button
+              onClick={() => handleCategoryChange('software')}
+              className={`flex-1 py-3 px-5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer relative z-10 ${
+                isSoftware 
+                  ? 'text-white' 
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              {isSoftware && (
+                <motion.div
+                  layoutId="activeTabPill"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4672A4] to-blue-600 shadow-lg shadow-blue-500/20 -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <Laptop size={14} />
+              <span>Software Suite</span>
+            </button>
 
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {instrumentalSolutions.map((item: InstrumentalSolution, idx: number) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="bg-white dark:bg-[#0C121D]/60 p-10 rounded-[45px] flex flex-col items-start text-left shadow-xl border border-slate-50 dark:border-white/5 group transition-all duration-300"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-white/5 flex items-center justify-center mb-8 group-hover:bg-[#4672A4] text-[#4672A4] group-hover:text-white transition-all duration-300">
-                  {item.icon}
-                </div>
-                <h4 className="text-3xl font-black tracking-tighter mb-4 transition-colors group-hover:text-[#4672A4]" style={{ color: brandBlue }}>{item.title}</h4>
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed mb-10">
-                  {item.desc}
-                </p>
-                <Link to={item.href} className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest hover:gap-3 transition-all" style={{ color: brandBlue }}>
-                  Inquire <ArrowRight size={14} />
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
+            {/* Toggle Instrumentation Solutions */}
+            <button
+              onClick={() => handleCategoryChange('instrumentation')}
+              className={`flex-1 py-3 px-5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer relative z-10 ${
+                !isSoftware 
+                  ? 'text-white' 
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              {!isSoftware && (
+                <motion.div
+                  layoutId="activeTabPill"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#F59E0B] to-orange-600 shadow-lg shadow-amber-500/20 -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <Wrench size={14} />
+              <span>Instrumentation</span>
+            </button>
+
+          </div>
         </div>
 
-        {/* --- SECTION 2: SOFTWARE SOLUTIONS --- */}
-        <div>
-          <div className="mb-12 flex flex-col items-center lg:items-start">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <Code2 size={16} style={{ color: brandBlue }} />
-              <h3 className="text-xl font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Software Solutions</h3>
-            </div>
-            <div className="h-px w-full bg-slate-200 dark:bg-white/5" />
-          </div>
-
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {softwareSolutions.map((item: SoftwareSolution, idx: number) => (
+        {/* --- DYNAMIC GRID WORKSPACE --- */}
+        <div className="relative min-h-[400px]">
+          <AnimatePresence mode="wait">
+            {isSoftware ? (
+              
+              /* --- SOFTWARE GRID VIEW --- */
               <motion.div
-                key={idx}
-                variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="bg-[#0A1128] dark:bg-[#0C121D]/40 p-10 rounded-[45px] flex flex-col items-start text-left shadow-2xl group border border-white/5 relative overflow-hidden"
+                key="software-grid"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch"
               >
+                {softwareSolutions.map((module, index) => {
+                  const ModuleIcon = module.icon;
+                  return (
+                    <motion.div
+                      key={module.id}
+                      initial={index === 0 ? { opacity: 0, x: -60 } : index === 1 ? { opacity: 0, y: 60 } : { opacity: 0, x: 60 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={{ once: true, amount: 0.1 }}
+                      transition={{ type: "spring", stiffness: 60, damping: 15, delay: index * 0.1 }}
+                      className="bg-white dark:bg-[#0C121D]/60 rounded-3xl border border-slate-200/60 dark:border-white/5 overflow-hidden flex flex-col justify-between group hover:shadow-[0_20px_40px_rgba(70,114,164,0.05)] hover:border-[#4672A4]/30 transition-all duration-300"
+                    >
+                      {/* Visual Card Image Cover */}
+                      <div className="h-52 overflow-hidden relative bg-slate-900 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+                        <img 
+                          src={module.image} 
+                          alt={module.title}
+                          className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500" 
+                        />
+                        
+                        {/* floating category icon & tag */}
+                        <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl">
+                          <ModuleIcon size={14} style={{ color: brandBlue }} />
+                          <span className="text-[9px] font-black uppercase tracking-wider text-slate-300">
+                            {module.category}
+                          </span>
+                        </div>
+                      </div>
 
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-8 group-hover:bg-white group-hover:text-[#0A1128] transition-all duration-300">
-                  {item.icon}
-                </div>
-                <h4 className="text-3xl font-black text-white tracking-tighter mb-4">{item.title}</h4>
-                <p className="text-slate-400 text-sm font-medium leading-relaxed mb-10">
-                  {item.desc}
-                </p>
-                {!item.comingSoon && (
-                  <Link to={item.href!} className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest hover:gap-3 transition-all" style={{ color: '#F59E0B' }}>
-                    {item.title === "IMAGEVISION" ? "Book a guided demo" : item.title === "SONOVISTA" ? "Explore SonoVista" : "Access Demo"} <ArrowRight size={14} />
-                  </Link>
-                )}
+                      {/* Content Block */}
+                      <div className="p-6 md:p-8 flex-1 flex flex-col justify-between items-start text-left gap-6">
+                        
+                        <div className="space-y-2.5">
+                          <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight group-hover:text-[#4672A4] transition-colors">
+                            {module.title}
+                          </h3>
+                          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            {module.subtitle}
+                          </p>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                            {module.description}
+                          </p>
+                        </div>
+
+                        {/* Card CTA direct navigation */}
+                        <Link 
+                          to={module.ctaLink} 
+                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-md hover:shadow-lg transition-all"
+                          style={{ 
+                            textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                            backgroundColor: brandBlue
+                          }}
+                        >
+                          <span>{module.ctaText}</span>
+                          <ArrowRight size={14} />
+                        </Link>
+
+                      </div>
+
+                    </motion.div>
+                  );
+                })}
               </motion.div>
-            ))}
-          </motion.div>
+            ) : (
+              
+              /* --- INSTRUMENTATION GRID VIEW --- */
+              <motion.div
+                key="instrumentation-grid"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch"
+              >
+                {instrumentationModules.map((module, index) => {
+                  const ModuleIcon = module.icon;
+                  return (
+                    <motion.div
+                      key={module.id}
+                      initial={index === 0 ? { opacity: 0, x: -60 } : index === 1 ? { opacity: 0, y: 60 } : { opacity: 0, x: 60 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
+                      viewport={{ once: true, amount: 0.1 }}
+                      transition={{ type: "spring", stiffness: 60, damping: 15, delay: index * 0.1 }}
+                      className="bg-white dark:bg-[#0C121D]/60 rounded-3xl border border-slate-200/60 dark:border-white/5 overflow-hidden flex flex-col justify-between group hover:shadow-[0_20px_40px_rgba(245,158,11,0.05)] hover:border-[#F59E0B]/30 transition-all duration-300"
+                    >
+                      {/* Visual Card Image Cover */}
+                      <div className="h-52 overflow-hidden relative bg-slate-900 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+                        <img 
+                          src={module.image} 
+                          alt={module.title}
+                          className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500" 
+                        />
+                        
+                        {/* floating category icon & tag */}
+                        <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-slate-900/80 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl">
+                          <ModuleIcon size={14} style={{ color: brandOrange }} />
+                          <span className="text-[9px] font-black uppercase tracking-wider text-slate-300">
+                            {module.category}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content Block */}
+                      <div className="p-6 md:p-8 flex-1 flex flex-col justify-between items-start text-left gap-6">
+                        
+                        <div className="space-y-2.5">
+                          <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight group-hover:text-[#F59E0B] transition-colors">
+                            {module.title}
+                          </h3>
+                          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            {module.subtitle}
+                          </p>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed font-medium">
+                            {module.description}
+                          </p>
+                        </div>
+
+                        {/* Card CTA direct navigation */}
+                        <Link 
+                          to={module.ctaLink} 
+                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-md hover:shadow-lg transition-all"
+                          style={{ 
+                            textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                            backgroundColor: brandOrange
+                          }}
+                        >
+                          <span>{module.ctaText}</span>
+                          <ArrowRight size={14} />
+                        </Link>
+
+                      </div>
+
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
       </div>

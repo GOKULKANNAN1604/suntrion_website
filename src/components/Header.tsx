@@ -44,16 +44,16 @@ function DropdownMenu({
       onMouseLeave={hide}
     >
       <button
-        className="flex items-center gap-1 text-[11px] font-black uppercase tracking-[0.18em] text-[#0A1128] dark:text-slate-300 hover:text-[#4672A4] dark:hover:text-white transition-all py-2 group relative"
+        className="flex items-center gap-1 text-[13px] font-semibold text-slate-700 dark:text-slate-300 hover:text-[#4672A4] dark:hover:text-white transition-all py-2 group relative cursor-pointer"
       >
         {label}
         <ChevronDown
-          size={11}
+          size={12}
           className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           style={{ color: brandBlue }}
         />
         <motion.span
-          className="absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all"
+          className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all"
           style={{ backgroundColor: brandBlue }}
         />
       </button>
@@ -74,7 +74,7 @@ function DropdownMenu({
                 key={item.name}
                 to={item.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-[#0A1128] dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-white/5 hover:text-[#4672A4] dark:hover:text-white transition-all"
+                className="flex items-center gap-2 px-5 py-3.5 text-[12px] font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-[#4672A4] dark:hover:text-white transition-all"
               >
                 <span
                   className="w-1.5 h-1.5 rounded-full flex-shrink-0"
@@ -170,25 +170,25 @@ export default function Header() {
               href={LOGIN_URL}
               target="_blank"
               rel="noreferrer"
-              className="hidden lg:flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border-2 border-[#4672A4] text-[#4672A4] transition-all hover:bg-[#4672A4] hover:text-white"
+              className="hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border border-[#4672A4] text-[#4672A4] transition-all hover:bg-[#4672A4] hover:text-white shadow-sm"
             >
-              SunVista Login <ExternalLink size={9} />
+              SunVista Login <ExternalLink size={10} />
             </a>
 
             {/* Desktop: Contact Us */}
             <a
               href="#footer"
               onClick={handleScrollToFooter}
-              className="hidden lg:flex items-center gap-1.5 text-[#0A1128] font-black text-[11px] uppercase tracking-[0.18em] hover:text-[#4672A4] transition-colors"
+              className="hidden lg:flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-semibold text-xs hover:text-[#4672A4] transition-colors"
             >
-              <Mail size={13} style={{ color: brandBlue }} /> Contact
+              <Mail size={14} style={{ color: brandBlue }} /> Contact
             </a>
 
             {/* Mobile: Contact */}
             <a
               href="#footer"
               onClick={handleScrollToFooter}
-              className="lg:hidden px-3.5 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-[0.1em] border-2 flex items-center gap-1.5"
+              className="lg:hidden px-3 py-1.5 rounded-lg font-semibold text-xs border flex items-center gap-1.5 shadow-sm"
               style={{ borderColor: brandBlue, color: brandBlue }}
             >
               <Mail size={11} /> Contact
@@ -206,7 +206,7 @@ export default function Header() {
             {/* Desktop: Try Demo CTA */}
             <Link
               to="/book-demo"
-              className="hidden lg:flex items-center px-6 py-2.5 rounded-xl font-black text-[11px] uppercase tracking-[0.18em] text-white transition-all hover:opacity-90 hover:shadow-lg"
+              className="hidden lg:flex items-center px-5 py-2 rounded-lg font-semibold text-xs text-white transition-all hover:opacity-90 shadow-sm hover:shadow-md"
               style={{ backgroundColor: brandBlue }}
             >
               Try Demo

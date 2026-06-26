@@ -436,26 +436,29 @@ export default function BookingPage() {
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
           
           {/* Animated Stars */}
-          {[...Array(50)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0.2, 1, 0.2],
-                scale: [1, 1.5, 1]
-              }}
-              transition={{
-                duration: 2 + Math.random() * 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 2
-              }}
-            />
-          ))}
+          {[...Array(50)].map((_, i) => {
+            const top = `${(i * 17.3) % 100}%`;
+            const left = `${(i * 23.7) % 100}%`;
+            const duration = 2 + ((i * 1.3) % 3);
+            const delay = (i * 0.75) % 2;
+            return (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-white rounded-full"
+                style={{ top, left }}
+                animate={{
+                  opacity: [0.2, 1, 0.2],
+                  scale: [1, 1.5, 1]
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay
+                }}
+              />
+            );
+          })}
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
@@ -582,7 +585,7 @@ export default function BookingPage() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-5"
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-[900] dark:text-white tracking-tighter uppercase break-words hyphens-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold dark:text-white tracking-tight break-words hyphens-auto">
               Dynamic Teleradiology Platform
             </h2>
             <p className="text-slate-500 dark:text-slate-400 text-base lg:text-lg font-medium leading-relaxed mb-8">
@@ -608,7 +611,7 @@ export default function BookingPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-7"
           >
-            <div className="bg-[#0A101D] dark:bg-slate-950/40 rounded-[32px] border border-blue-500/20 dark:border-white/5 shadow-2xl p-6 md:p-8 relative overflow-hidden text-white group">
+            <div className="bg-[#0A101D] dark:bg-slate-950/40 rounded-2xl border border-blue-500/20 dark:border-white/5 shadow-2xl p-6 md:p-8 relative overflow-hidden text-white group">
               {/* Blue Light Background Glow */}
               <motion.div 
                 animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.9, 1.1, 0.9] }}
@@ -664,7 +667,7 @@ export default function BookingPage() {
 
               transition={{ duration: 0.35 }}
 
-              className="bg-white dark:bg-[#0C121D] p-8 md:p-14 rounded-[3rem] border border-slate-100 dark:border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.015)] flex flex-col relative min-h-[340px] justify-between"
+              className="bg-white dark:bg-[#0C121D] p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.015)] flex flex-col relative min-h-[340px] justify-between"
 
             >
 
