@@ -101,39 +101,8 @@ export default function Footer() {
             </div>
           </motion.div>
 
-          {/* Column 2: Solutions Navigation */}
-          <motion.div variants={itemVariant} className="lg:col-span-2 space-y-6">
-            <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Solutions</h4>
-            <ul className="space-y-3.5 text-slate-400 font-medium text-sm">
-              {[
-                { label: "SunVista Radiology", path: "/book-demo", hasArrow: true },
-                { label: "ImageVision", path: "/imagevision-demo", hasArrow: true },
-                { label: "SonoVista", path: "/sonovista", hasArrow: true },
-                { label: "Clinical Engineering", path: "/solutions-catalog" },
-                { label: "Industrial Automation", path: "/solutions-catalog" }
-              ].map((link, idx) => (
-                <li key={idx}>
-                  <Link 
-                    to={link.path} 
-                    className="hover:text-white transition-all flex items-center gap-1.5 group w-fit"
-                  >
-                    <span>{link.label}</span>
-                    {link.hasArrow && (
-                      <ArrowUpRight 
-                        size={14} 
-                        className="opacity-0 -translate-y-0.5 translate-x-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:translate-y-0 transition-all" 
-                        style={{ color: brandOrange }} 
-                      />
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Column 3: Contact & Channels */}
-          <motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
-            <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Support & Channels</h4>
+<motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
+            <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Contact Us</h4>
             <div className="space-y-5">
               {/* Software Suite Support */}
               <div className="space-y-2">
@@ -196,6 +165,38 @@ export default function Footer() {
               </div>
             </div>
           </motion.div>
+          {/* Column 2: Solutions Navigation */}
+          <motion.div variants={itemVariant} className="lg:col-span-2 space-y-6">
+            <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Solutions</h4>
+            <ul className="space-y-3.5 text-slate-400 font-medium text-sm">
+              {[
+                { label: "SunVista Radiology", path: "/book-demo", hasArrow: true },
+                { label: "ImageVision", path: "/imagevision-demo", hasArrow: true },
+                { label: "SonoVista", path: "/sonovista", hasArrow: true },
+                { label: "Clinical Engineering", path: "/solutions-catalog" },
+                { label: "Industrial Automation", path: "/solutions-catalog" }
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={link.path} 
+                    className="hover:text-white transition-all flex items-center gap-1.5 group w-fit"
+                  >
+                    <span>{link.label}</span>
+                    {link.hasArrow && (
+                      <ArrowUpRight 
+                        size={14} 
+                        className="opacity-0 -translate-y-0.5 translate-x-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:translate-y-0 transition-all" 
+                        style={{ color: brandOrange }} 
+                      />
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Column 3: Contact & Channels */}
+          
 
           {/* Column 4: Locations */}
           <motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
