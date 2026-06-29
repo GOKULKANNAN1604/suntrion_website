@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { countryCodes } from '../data/countryCodes';
 
 import biltLogo from '../assets/biltLogo.webp';
 import itcLogo from '../assets/ITCLogo.jpg';
@@ -775,6 +776,7 @@ export default function ProductsCatalog() {
     fullName: '',
     email: '',
     role: '',
+    countryCode: '+91',
     phone: '',
     message: ''
   });
@@ -846,6 +848,8 @@ export default function ProductsCatalog() {
   const WHATSAPP_NUMBER = "919597959894";
   const SALES_EMAIL = "sales@suntrion.com";
 
+  // countryCodes is imported from '../data/countryCodes'
+
   const handleQuoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setQuoteErrorMsg('');
@@ -863,28 +867,123 @@ export default function ProductsCatalog() {
 
     const trimmedPhone = quoteFormData.phone.trim();
     const phoneDigits = trimmedPhone.replace(/\D/g, '');
-    if (!trimmedPhone.startsWith('+') && phoneDigits.length === 10) {
-      setQuoteErrorMsg("Please enter a valid phone number with country code (e.g. +91 95979 59894)");
-      return;
-    }
-
-    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-      setQuoteErrorMsg("Please enter a valid phone number (10 to 15 digits including country code)");
+    if (phoneDigits.length < 7 || phoneDigits.length > 12) {
+      setQuoteErrorMsg("Please enter a valid phone number (7 to 12 digits)");
       return;
     }
 
     setIsSendingQuote(true);
 
+    const fullFormattedPhone = `${quoteFormData.countryCode} ${quoteFormData.phone}`;
+    const productTitle = `${catalogData[activeCategory].title} - ${activeSub}`;
+    const dateFormatted = new Date().toLocaleDateString('default', { day: 'numeric', month: 'long', year: 'numeric' });
+    const timeFormatted = new Date().toLocaleTimeString('default', { hour: '2-digit', minute: '2-digit' });
+    const queryMessage = quoteFormData.message || "Requesting custom quote for product.";
+
     const templateParams = {
       to_email: "sales@suntrion.com",
       fullName: quoteFormData.fullName,
       role: quoteFormData.role,
-      phone: quoteFormData.phone,
+      countryCode: quoteFormData.countryCode,
+      country_code: quoteFormData.countryCode,
+      contactNumber: quoteFormData.phone,
+      contact_number: quoteFormData.phone,
+      phone: fullFormattedPhone,
       email: quoteFormData.email,
-      product: `${catalogData[activeCategory].title} - ${activeSub}`,
-      date: new Date().toLocaleDateString('default', { day: 'numeric', month: 'long', year: 'numeric' }),
-      time: new Date().toLocaleTimeString('default', { hour: '2-digit', minute: '2-digit' }),
-      query: quoteFormData.message || "Requesting custom quote for product."
+      product: productTitle,
+      date: dateFormatted,
+      time: timeFormatted,
+      query: queryMessage,
+      message: `
+NEW PRODUCT QUOTE REQUEST
+=========================
+Product             : ${productTitle}
+Client Name         : ${quoteFormData.fullName}
+Role / Designation  : ${quoteFormData.role}
+Work Email Address  : ${quoteFormData.email}
+Contact Number      : ${fullFormattedPhone}
+Requested on        : ${dateFormatted} at ${timeFormatted}
+Requirements        : ${queryMessage}
+-------------------------
+Sent automatically via Suntrion Web Portal.
+      `,
+      message_html: `
+        <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #0f172a; max-width: 600px; margin: 0 auto; border-radius: 24px;">
+          <!-- Branded Header -->
+          <div style="background: linear-gradient(135deg, #4672A4 0%, #2b4c7e 100%); padding: 32px 24px; border-radius: 20px 20px 0 0; text-align: center; color: #ffffff;">
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; display: block; margin-bottom: 8px;">Suntrion Portal</span>
+            <h1 style="margin: 0; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px;">New Quote Request</h1>
+            <p style="margin: 8px 0 0 0; font-size: 13px; opacity: 0.9; font-weight: 500;">Procurement Quote details are listed below</p>
+          </div>
+
+          <!-- Main Content Card -->
+          <div style="background-color: #ffffff; padding: 36px 32px; border-radius: 0 0 20px 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; border-top: none;">
+            
+            <!-- Product Badge -->
+            <div style="margin-bottom: 28px;">
+              <span style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 6px;">Requested Product</span>
+              <span style="background-color: #f1f5f9; color: #4672A4; font-size: 14px; font-weight: 800; padding: 8px 16px; border-radius: 8px; border: 1px solid #e2e8f0; display: inline-block;">
+                ${productTitle}
+              </span>
+            </div>
+
+            <!-- Profile Fields -->
+            <h3 style="margin: 0 0 16px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">Client Profile</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 28px;">
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b; width: 150px;">Full Name</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 700; color: #0f172a;">${quoteFormData.fullName}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Designation / Role</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #334155;">${quoteFormData.role}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Work Email</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #334155;">
+                  <a href="mailto:${quoteFormData.email}" style="color: #4672A4; text-decoration: none; font-weight: 700;">${quoteFormData.email}</a>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Contact Number</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 700; color: #0f172a;">${fullFormattedPhone}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Requested on</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #334155;">${dateFormatted} at ${timeFormatted}</td>
+              </tr>
+            </table>
+
+            <!-- Requirements Message -->
+            <div style="margin-bottom: 32px;">
+              <span style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 8px;">Specific Requirements</span>
+              <div style="background-color: #f8fafc; border: 1px solid #edf2f7; padding: 16px; border-radius: 12px; color: #334155; font-size: 13px; line-height: 1.6; font-style: italic;">
+                "${queryMessage}"
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <h3 style="margin: 0 0 16px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">Quick Actions</h3>
+            
+            <div style="margin-top: 16px;">
+              <a href="https://wa.me/${phoneDigits}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-right: 8px; margin-bottom: 8px; box-shadow: 0 4px 6px -1px rgba(37, 211, 102, 0.15);">
+                💬 Chat on WhatsApp
+              </a>
+              <a href="mailto:${quoteFormData.email}?subject=Suntrion Quote Request: ${productTitle}" style="background-color: #4672A4; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 8px; box-shadow: 0 4px 6px -1px rgba(70, 114, 164, 0.15);">
+                ✉️ Send Quote Details
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Branded Footer -->
+          <div style="text-align: center; margin-top: 24px; font-size: 10px; color: #64748b; line-height: 1.5;">
+            This is an automated notification from your Suntrion Website Portal.<br />
+            Do not reply directly to this email.
+          </div>
+        </div>
+      `
     };
 
     emailjs.send(
@@ -1110,7 +1209,7 @@ export default function ProductsCatalog() {
                 onClick={() => {
                   setQuoteFormSuccess(false);
                   setQuoteErrorMsg('');
-                  setQuoteFormData({ fullName: '', email: '', role: '', phone: '', message: '' });
+                  setQuoteFormData({ fullName: '', email: '', role: '', countryCode: '+91', phone: '', message: '' });
                   setIsQuoteModalOpen(true);
                 }}
                 className="w-full bg-[#4672A4] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
@@ -1167,7 +1266,7 @@ export default function ProductsCatalog() {
                           setSelectedItemName(item.name);
                           setQuoteFormSuccess(false);
                           setQuoteErrorMsg('');
-                          setQuoteFormData({ fullName: '', email: '', role: '', phone: '', message: '' });
+                          setQuoteFormData({ fullName: '', email: '', role: '', countryCode: '+91', phone: '', message: '' });
                           setIsQuoteModalOpen(true);
                         }}
                         className="flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-[#F8FAFC] dark:bg-[#070B13] rounded-xl lg:rounded-2xl border border-slate-100 dark:border-white/5 group hover:border-blue-200 transition-all cursor-pointer"
@@ -1217,7 +1316,7 @@ export default function ProductsCatalog() {
                   onClick={() => {
                     setQuoteFormSuccess(false);
                     setQuoteErrorMsg('');
-                    setQuoteFormData({ fullName: '', email: '', role: '', phone: '', message: '' });
+                    setQuoteFormData({ fullName: '', email: '', role: '', countryCode: '+91', phone: '', message: '' });
                     setIsQuoteModalOpen(true);
                   }}
                   className="w-full bg-[#4672A4] py-4 rounded-xl text-white font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 shadow-md"
@@ -1408,13 +1507,25 @@ export default function ProductsCatalog() {
                       onChange={e => setQuoteFormData({...quoteFormData, role: e.target.value})}
                     />
 
-                    <input 
-                      type="tel" 
-                      placeholder="Contact Number (with Country Code) *" 
-                      className="w-full px-5 py-3.5 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl focus:border-[#4672A4] outline-none text-sm transition-all"
-                      value={quoteFormData.phone}
-                      onChange={e => setQuoteFormData({...quoteFormData, phone: e.target.value})}
-                    />
+                    <div className="flex gap-2 w-full">
+                      <select 
+                        value={quoteFormData.countryCode} 
+                        onChange={e => setQuoteFormData({ ...quoteFormData, countryCode: e.target.value })}
+                        className="w-[120px] px-3 py-3.5 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl focus:border-[#4672A4] outline-none text-sm text-slate-700 dark:text-slate-200 cursor-pointer transition-all"
+                      >
+                        {countryCodes.map(c => (
+                          <option key={c.code} value={c.code}>{c.code} ({c.country})</option>
+                        ))}
+                      </select>
+                      <input 
+                        type="tel" 
+                        placeholder="Contact Number *" 
+                        required
+                        className="flex-1 px-5 py-3.5 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl focus:border-[#4672A4] outline-none text-sm text-slate-900 dark:text-white transition-all"
+                        value={quoteFormData.phone}
+                        onChange={e => setQuoteFormData({...quoteFormData, phone: e.target.value})}
+                      />
+                    </div>
 
                     <textarea 
                       placeholder="Specific Requirements / Message (Optional)" 

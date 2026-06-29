@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import { 
@@ -6,6 +6,7 @@ import {
   Database, Sparkles, MessageCircle, Calendar,
   Star, Globe, Zap, MailCheck, Loader2, Cpu
 } from 'lucide-react';
+import { countryCodes } from '../data/countryCodes';
 
 interface Testimonial {
   client: string;
@@ -17,6 +18,7 @@ interface Testimonial {
 interface FormDataState {
   fullName: string;
   role: string;
+  countryCode: string;
   phone: string;
   email: string;
 }
@@ -56,6 +58,7 @@ export default function BookingPage() {
   const [formData, setFormData] = useState<FormDataState>({ 
     fullName: '', 
     role: '', 
+    countryCode: '+91',
     phone: '', 
     email: '' 
   });
@@ -81,27 +84,116 @@ export default function BookingPage() {
 
     const trimmedPhone = formData.phone.trim();
     const phoneDigits = trimmedPhone.replace(/\D/g, '');
-    if (!trimmedPhone.startsWith('+') && phoneDigits.length === 10) {
-      setErrorMsg("Please enter a valid phone number with country code (e.g. +91 95979 59894)");
-      return;
-    }
-
-    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
-      setErrorMsg("Please enter a valid phone number (10 to 15 digits including country code)");
+    if (phoneDigits.length < 7 || phoneDigits.length > 12) {
+      setErrorMsg("Please enter a valid phone number (7 to 12 digits)");
       return;
     }
 
     setIsSending(true);
 
+    const fullFormattedPhone = `${formData.countryCode} ${formData.phone}`;
+    const formattedDate = `${selectedDate} ${viewDate.toLocaleString('default', { month: 'long' })} ${viewDate.getFullYear()}`;
+
     const templateParams = {
       to_email: "customercare@suntrion.com",
       fullName: formData.fullName,
       role: formData.role,
-      phone: formData.phone,
+      countryCode: formData.countryCode,
+      country_code: formData.countryCode,
+      contactNumber: formData.phone,
+      contact_number: formData.phone,
+      phone: fullFormattedPhone,
       email: formData.email,
       product: "SunVista Cloud PACS",
-      date: `${selectedDate} ${viewDate.toLocaleString('default', { month: 'long' })} ${viewDate.getFullYear()}`,
+      date: formattedDate,
       time: selectedTime,
+      message: `
+NEW TECHNICAL WALKTHROUGH REQUEST (CLOUD PACS)
+==============================================
+Product             : SunVista Cloud PACS
+Client Name         : ${formData.fullName}
+Role / Designation  : ${formData.role}
+Work Email Address  : ${formData.email}
+Contact Number      : ${fullFormattedPhone}
+Appointment Slot    : ${formattedDate} at ${selectedTime}
+----------------------------------------------
+Sent automatically via Suntrion Web Portal.
+      `,
+      message_html: `
+        <div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #0f172a; max-width: 600px; margin: 0 auto; border-radius: 24px;">
+          <!-- Branded Header -->
+          <div style="background: linear-gradient(135deg, #4672A4 0%, #2b4c7e 100%); padding: 32px 24px; border-radius: 20px 20px 0 0; text-align: center; color: #ffffff;">
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; display: block; margin-bottom: 8px;">Suntrion Portal</span>
+            <h1 style="margin: 0; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px;">New Walkthrough Request</h1>
+            <p style="margin: 8px 0 0 0; font-size: 13px; opacity: 0.9; font-weight: 500;">Schedule Request details are listed below</p>
+          </div>
+
+          <!-- Main Content Card -->
+          <div style="background-color: #ffffff; padding: 36px 32px; border-radius: 0 0 20px 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; border-top: none;">
+            
+            <!-- Calendar Badge -->
+            <div style="background-color: #f0f7ff; border-left: 4px solid #4672A4; padding: 18px; border-radius: 12px; margin-bottom: 28px; display: flex; align-items: center; gap: 15px;">
+              <div style="font-size: 24px; line-height: 1;">📅</div>
+              <div>
+                <span style="font-size: 10px; font-weight: 800; color: #4672A4; text-transform: uppercase; display: block; margin-bottom: 2px;">Proposed Time Slot</span>
+                <strong style="font-size: 16px; color: #1e3a8a;">${formattedDate}</strong>
+                <span style="font-size: 13px; color: #475569; display: block; margin-top: 1px;">at <strong>${selectedTime}</strong></span>
+              </div>
+            </div>
+
+            <!-- Product Interest -->
+            <div style="margin-bottom: 28px;">
+              <span style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 6px;">Product of Interest</span>
+              <span style="background-color: #f1f5f9; color: #334155; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 8px; border: 1px solid #e2e8f0; display: inline-block;">
+                SunVista Cloud PACS
+              </span>
+            </div>
+
+            <!-- Profile Fields -->
+            <h3 style="margin: 0 0 16px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">Client Profile</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px;">
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b; width: 150px;">Full Name</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 700; color: #0f172a;">${formData.fullName}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Designation / Role</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #334155;">${formData.role}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Work Email</td>
+                <td style="padding: 12px 0; font-size: 13px; font-weight: 600; color: #334155;">
+                  <a href="mailto:${formData.email}" style="color: #4672A4; text-decoration: none; font-weight: 700;">${formData.email}</a>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 12px 0; font-size: 12px; font-weight: 600; color: #64748b;">Contact Number</td>
+                <td style="padding: 12px 0; font-weight: 700; color: #0f172a;">${fullFormattedPhone}</td>
+              </tr>
+            </table>
+
+            <!-- Quick Actions -->
+            <h3 style="margin: 0 0 16px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">Quick Actions</h3>
+            
+            <div style="margin-top: 16px;">
+              <a href="https://wa.me/${phoneDigits}" target="_blank" style="background-color: #25D366; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-right: 8px; margin-bottom: 8px; box-shadow: 0 4px 6px -1px rgba(37, 211, 102, 0.15);">
+                💬 Chat on WhatsApp
+              </a>
+              <a href="mailto:${formData.email}?subject=Suntrion walkthrough schedule confirmation" style="background-color: #4672A4; color: white; padding: 12px 20px; border-radius: 12px; text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 8px; box-shadow: 0 4px 6px -1px rgba(70, 114, 164, 0.15);">
+                ✉️ Email Client
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Branded Footer -->
+          <div style="text-align: center; margin-top: 24px; font-size: 10px; color: #64748b; line-height: 1.5;">
+            This is an automated notification from your Suntrion Website Portal.<br />
+            Do not reply directly to this email.
+          </div>
+        </div>
+      `
     };
 
     emailjs.send(
@@ -279,10 +371,28 @@ export default function BookingPage() {
                     <button type="button" onClick={() => setStep(1)} className="text-[10px] font-black uppercase mb-6 flex items-center gap-2"><ArrowLeft size={14}/> Back</button>
                     <h3 className="text-xl lg:text-2xl font-[900] text-[#0A1128] dark:text-white uppercase tracking-tighter mb-8">Confirm Your Details</h3>
                     <form onSubmit={handleEmailSubmit} className="space-y-4" noValidate>
-                      <input type="text" placeholder="Full Name *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] rounded-xl text-sm outline-none" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
-                      <input type="email" placeholder="Work Email Address *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] rounded-xl text-sm outline-none" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-                      <input type="text" placeholder="Your Role *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] rounded-xl text-sm outline-none" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} />
-                      <input type="tel" placeholder="Contact Number (with Country Code) *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] rounded-xl text-sm outline-none" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                      <input type="text" placeholder="Full Name *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl text-sm outline-none text-slate-900 dark:text-white" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
+                      <input type="email" placeholder="Work Email Address *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl text-sm outline-none text-slate-900 dark:text-white" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                      <input type="text" placeholder="Your Role *" required className="w-full p-4 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl text-sm outline-none text-slate-900 dark:text-white" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} />
+                      <div className="flex gap-2 w-full">
+                        <select 
+                          value={formData.countryCode} 
+                          onChange={e => setFormData({ ...formData, countryCode: e.target.value })}
+                          className="w-[120px] p-4 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl text-sm outline-none text-slate-700 dark:text-slate-200 cursor-pointer"
+                        >
+                          {countryCodes.map(c => (
+                            <option key={c.code} value={c.code}>{c.code} ({c.country})</option>
+                          ))}
+                        </select>
+                        <input 
+                          type="tel" 
+                          placeholder="Contact Number *" 
+                          required 
+                          value={formData.phone}
+                          className="flex-1 p-4 bg-slate-50 dark:bg-[#0C121D] border border-slate-100 dark:border-white/5 rounded-xl text-sm outline-none text-slate-900 dark:text-white" 
+                          onChange={e => setFormData({ ...formData, phone: e.target.value })} 
+                        />
+                      </div>
                       {errorMsg && (
                         <p className="text-xs font-bold text-red-500 text-center mb-2 animate-pulse">{errorMsg}</p>
                       )}
