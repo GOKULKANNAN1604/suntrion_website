@@ -204,13 +204,15 @@ export default function Header() {
             </button>
 
             {/* Desktop: Try Demo CTA */}
-            <Link
-              to="/book-demo"
+            <a
+              href="https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en"
+              target="_blank"
+              rel="noreferrer"
               className="hidden lg:flex items-center px-5 py-2 rounded-lg font-semibold text-xs text-white transition-all hover:opacity-90 shadow-sm hover:shadow-md"
               style={{ backgroundColor: brandBlue }}
             >
               Try Demo
-            </Link>
+            </a>
 
           </div>
         </div>
@@ -371,14 +373,16 @@ export default function Header() {
                   SunVista Login <ExternalLink size={10} />
                 </a>
 
-                <Link
-                  to="/book-demo"
+                <a
+                  href="https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en"
+                  target="_blank"
+                  rel="noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full flex items-center justify-center py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.15em] text-white transition-all hover:opacity-90 shadow-md hover:shadow-lg text-center"
                   style={{ backgroundColor: brandBlue }}
                 >
                   Try Demo
-                </Link>
+                </a>
               </div>
             </motion.div>
           </>

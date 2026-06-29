@@ -281,7 +281,7 @@ Sent automatically via Suntrion Web Portal.
               </h2>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                <a href="https://wa.me/919597959894" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-black px-10 py-5 rounded-2xl font-black uppercase text-[10px] hover:scale-105 transition-transform" style={{ backgroundColor: brandYellow }}>
+                <a href="https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-black px-10 py-5 rounded-2xl font-black uppercase text-[10px] hover:scale-105 transition-transform" style={{ backgroundColor: brandYellow }}>
                   <MessageCircle size={14} /> Try Live Demo
                 </a>
                 <button onClick={() => document.getElementById('booking-section')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white px-10 py-5 rounded-2xl font-black uppercase text-[10px] transition-colors hover:bg-white/10">

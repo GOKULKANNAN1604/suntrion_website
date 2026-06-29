@@ -33,8 +33,8 @@ export default function Solutions() {
       subtitle: 'Cloud-native Picture Archiving & PACS suite',
       category: 'Software Suite',
       description: 'Picture Archiving and Communication System designed for zero-latency medical diagnostic streaming and robust teleradiology workflows.',
-      ctaText: 'Access Live Stream',
-      ctaLink: '/book-demo',
+      ctaText: 'Try Live Demo',
+      ctaLink: 'https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en',
       image: '/ct_3dvr.png',
       icon: Cloud
     },
@@ -44,7 +44,7 @@ export default function Solutions() {
       subtitle: 'Advanced 3D Volume Workstation',
       category: '3D Workstation',
       description: 'Advanced diagnostic workstation supporting 3D volume reconstruction, MIP (Maximum Intensity Projection) overlays, and interactive measurement tools.',
-      ctaText: 'Interactive Demo',
+      ctaText: 'Explore Workstation',
       ctaLink: '/imagevision-demo',
       image: '/imagevision_render.png',
       icon: Monitor
@@ -55,7 +55,7 @@ export default function Solutions() {
       subtitle: 'Ultrasound Workspace & Reporting',
       category: 'Ultrasound Workspace',
       description: 'Structured clinical reporting and image management workspace designed to optimize clinical ultrasound reporting workflows.',
-      ctaText: 'Structured Reports',
+      ctaText: 'Explore Workspace',
       ctaLink: '/sonovista',
       image: '/sonovista_dashboard.png',
       icon: FileText
@@ -252,17 +252,33 @@ export default function Solutions() {
                         </div>
 
                         {/* Card CTA direct navigation */}
-                        <Link 
-                          to={module.ctaLink} 
-                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-md hover:shadow-lg transition-all"
-                          style={{ 
-                            textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                            backgroundColor: brandBlue
-                          }}
-                        >
-                          <span>{module.ctaText}</span>
-                          <ArrowRight size={14} />
-                        </Link>
+                        {module.ctaLink.startsWith('http') ? (
+                          <a
+                            href={module.ctaLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-md hover:shadow-lg transition-all text-center"
+                            style={{ 
+                              textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                              backgroundColor: brandBlue
+                            }}
+                          >
+                            <span>{module.ctaText}</span>
+                            <ArrowRight size={14} />
+                          </a>
+                        ) : (
+                          <Link 
+                            to={module.ctaLink} 
+                            className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white shadow-md hover:shadow-lg transition-all"
+                            style={{ 
+                              textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+                              backgroundColor: brandBlue
+                            }}
+                          >
+                            <span>{module.ctaText}</span>
+                            <ArrowRight size={14} />
+                          </Link>
+                        )}
 
                       </div>
 

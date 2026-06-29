@@ -625,9 +625,14 @@ export default function BookingPage() {
                   <p className="text-sm text-slate-300 font-medium">Advanced Cloud PACS & AI Diagnostic Engine (Simulated Workflow)</p>
                 </div>
                 <div className="shrink-0">
-                  <button onClick={(e) => e.preventDefault()} className="px-5 py-2 bg-[#2563EB] hover:bg-blue-600 text-white text-xs font-black uppercase tracking-wider rounded-full transition-colors shadow-lg shadow-blue-500/20 cursor-default">
+                  <a
+                    href="https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-5 py-2 bg-[#2563EB] hover:bg-blue-600 text-white text-xs font-black uppercase tracking-wider rounded-full transition-colors shadow-lg shadow-blue-500/20"
+                  >
                     Try Demo
-                  </button>
+                  </a>
                 </div>
               </div>
 
