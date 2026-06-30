@@ -7,8 +7,8 @@ export default function Footer() {
   const WHATSAPP_NUMBER_2 = "918148145563";
   const currentYear = new Date().getFullYear();
 
-  const brandBlue = "#4672A4"; 
-  const brandOrange = "#F59E0B"; 
+  const brandBlue = "#4672A4";
+  const brandOrange = "#F59E0B";
 
   // Dynamic environment targeting detection for phone link
   const getDynamicPhoneLink = (phone: string) => {
@@ -34,8 +34,8 @@ export default function Footer() {
   };
 
   return (
-    <footer 
-      id="footer" 
+    <footer
+      id="footer"
       className="relative pt-24 pb-12 text-white font-['Outfit'] border-t border-white/5 overflow-hidden bg-gradient-to-b from-[#070B13] via-[#05070D] to-[#020306]"
     >
       {/* Decorative Radial Lighting */}
@@ -43,9 +43,9 @@ export default function Footer() {
       <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto px-6 relative z-10">
-        
+
         {/* Main Grid */}
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -54,7 +54,7 @@ export default function Footer() {
           }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-20"
         >
-          
+
           {/* Column 1: Brand Info & Live Helpdesk Status Dashboard */}
           <motion.div variants={itemVariant} className="lg:col-span-4 space-y-8">
             <div className="space-y-4">
@@ -101,14 +101,14 @@ export default function Footer() {
             </div>
           </motion.div>
 
-<motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
+          <motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
             <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Contact Us</h4>
             <div className="space-y-5">
               {/* Software Suite Support */}
               <div className="space-y-2">
                 <span className="block text-[9px] font-black tracking-widest text-slate-500 uppercase">Software Suite Support</span>
-                <a 
-                  href="mailto:customercare@suntrion.com" 
+                <a
+                  href="mailto:customercare@suntrion.com"
                   className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group text-sm w-fit"
                 >
                   <span className="p-1.5 rounded-lg bg-white/5 group-hover:bg-blue-500/10 transition-colors">
@@ -122,8 +122,8 @@ export default function Footer() {
               <div className="space-y-2">
                 <span className="block text-[9px] font-black tracking-widest text-slate-500 uppercase">Instrumentation & Engineering</span>
                 <div className="space-y-2.5">
-                  <a 
-                    href="mailto:sales@suntrion.com" 
+                  <a
+                    href="mailto:sales@suntrion.com"
                     className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group text-sm w-fit"
                   >
                     <span className="p-1.5 rounded-lg bg-white/5 group-hover:bg-blue-500/10 transition-colors">
@@ -131,8 +131,8 @@ export default function Footer() {
                     </span>
                     <span className="break-all font-medium">sales@suntrion.com</span>
                   </a>
-                  <a 
-                    href="mailto:info@suntrion.com" 
+                  <a
+                    href="mailto:info@suntrion.com"
                     className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group text-sm w-fit"
                   >
                     <span className="p-1.5 rounded-lg bg-white/5 group-hover:bg-blue-500/10 transition-colors">
@@ -148,7 +148,7 @@ export default function Footer() {
                 <span className="block text-[9px] font-black tracking-widest text-slate-500 uppercase">Direct Call & WhatsApp</span>
                 <div className="space-y-2">
                   {[WHATSAPP_NUMBER_1, WHATSAPP_NUMBER_2].map((num, idx) => (
-                    <a 
+                    <a
                       key={idx}
                       href={getDynamicPhoneLink(num)}
                       target="_top"
@@ -177,16 +177,16 @@ export default function Footer() {
                 { label: "Industrial Automation", path: "/solutions-catalog" }
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link 
-                    to={link.path} 
+                  <Link
+                    to={link.path}
                     className="hover:text-white transition-all flex items-center gap-1.5 group w-fit"
                   >
                     <span>{link.label}</span>
                     {link.hasArrow && (
-                      <ArrowUpRight 
-                        size={14} 
-                        className="opacity-0 -translate-y-0.5 translate-x-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:translate-y-0 transition-all" 
-                        style={{ color: brandOrange }} 
+                      <ArrowUpRight
+                        size={14}
+                        className="opacity-0 -translate-y-0.5 translate-x-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:translate-y-0 transition-all"
+                        style={{ color: brandOrange }}
                       />
                     )}
                   </Link>
@@ -196,13 +196,13 @@ export default function Footer() {
           </motion.div>
 
           {/* Column 3: Contact & Channels */}
-          
+
 
           {/* Column 4: Locations */}
           <motion.div variants={itemVariant} className="lg:col-span-3 space-y-6">
             <h4 className="text-xs font-black tracking-[0.2em] uppercase" style={{ color: brandBlue }}>Locations</h4>
             <div className="space-y-4">
-              
+
               {/* India HQ */}
               <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group">
                 <div className="flex gap-3">
@@ -261,21 +261,8 @@ export default function Footer() {
                         <p>Singapore - 760227.</p>
                       </div>
                     </div>
-                    
-                    <div className="pt-2 border-t border-white/5 space-y-1 text-xs text-slate-400">
-                      <a href="tel:+919790909964" className="flex items-center gap-2 hover:text-white transition-colors group/link">
-                        <Phone size={12} className="text-slate-500 group-hover/link:text-amber-400 transition-colors" />
-                        <span>+91 97909 09964</span>
-                      </a>
-                      <a href="mailto:sales@suntrion.com" className="flex items-center gap-2 hover:text-white transition-colors group/link">
-                        <Mail size={12} className="text-slate-500 group-hover/link:text-blue-400 transition-colors" />
-                        <span className="break-all">sales@suntrion.com</span>
-                      </a>
-                      <a href="mailto:supportcentre@suntrion.com" className="flex items-center gap-2 hover:text-white transition-colors group/link flex-wrap">
-                        <Mail size={12} className="text-slate-500 group-hover/link:text-blue-400 transition-colors" />
-                        <span className="break-all">supportcentre@suntrion.com</span>
-                      </a>
-                    </div>
+
+
                   </div>
                 </div>
               </div>
@@ -291,7 +278,7 @@ export default function Footer() {
             <div className="w-full border-t border-white/5 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
           </div>
           <div className="relative z-10">
-            <motion.button 
+            <motion.button
               onClick={scrollToTop}
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.9 }}
