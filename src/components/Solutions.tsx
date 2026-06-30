@@ -33,8 +33,8 @@ export default function Solutions() {
       subtitle: 'Cloud-native Picture Archiving & PACS suite',
       category: 'Software Suite',
       description: 'Picture Archiving and Communication System designed for zero-latency medical diagnostic streaming and robust teleradiology workflows.',
-      ctaText: 'Try Live Demo',
-      ctaLink: 'https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en',
+      ctaText: 'Explore Workflows',
+      ctaLink: '/book-demo',
       image: '/ct_3dvr.png',
       icon: Cloud
     },

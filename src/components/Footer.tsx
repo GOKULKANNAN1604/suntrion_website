@@ -247,6 +247,39 @@ export default function Footer() {
                 </div>
               </div>
 
+              {/* Singapore */}
+              <div className="p-3.5 rounded-xl bg-white/[0.01] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group">
+                <div className="flex gap-3">
+                  <Globe style={{ color: brandOrange }} size={16} className="mt-0.5 shrink-0" />
+                  <div className="space-y-2.5 flex-1">
+                    <div>
+                      <h5 className="font-bold text-white text-xs uppercase tracking-wider">Singapore</h5>
+                      <div className="text-slate-400 text-xs mt-1 leading-relaxed font-medium">
+                        <p className="font-bold text-slate-300">TSR PTE. LTD.</p>
+                        <p>Blk 227 Yishun,</p>
+                        <p>Street 21 #10-512,</p>
+                        <p>Singapore - 760227.</p>
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2 border-t border-white/5 space-y-1 text-xs text-slate-400">
+                      <a href="tel:+919790909964" className="flex items-center gap-2 hover:text-white transition-colors group/link">
+                        <Phone size={12} className="text-slate-500 group-hover/link:text-amber-400 transition-colors" />
+                        <span>+91 97909 09964</span>
+                      </a>
+                      <a href="mailto:sales@suntrion.com" className="flex items-center gap-2 hover:text-white transition-colors group/link">
+                        <Mail size={12} className="text-slate-500 group-hover/link:text-blue-400 transition-colors" />
+                        <span className="break-all">sales@suntrion.com</span>
+                      </a>
+                      <a href="mailto:supportcentre@suntrion.com" className="flex items-center gap-2 hover:text-white transition-colors group/link flex-wrap">
+                        <Mail size={12} className="text-slate-500 group-hover/link:text-blue-400 transition-colors" />
+                        <span className="break-all">supportcentre@suntrion.com</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </motion.div>
 

@@ -13,3 +13,18 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
 }
+
+@keyframes clinical-pulse {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(147, 197, 253, 0.25), 0 0 40px rgba(147, 197, 253, 0.1);
+    filter: brightness(0.96);
+  }
+  50% {
+    text-shadow: 0 0 35px rgba(147, 197, 253, 0.65), 0 0 70px rgba(147, 197, 253, 0.35), 0 0 100px rgba(147, 197, 253, 0.15);
+    filter: brightness(1.05);
+  }
+}
+
+.animate-clinical-glow {
+  animation: clinical-pulse 4.5s ease-in-out infinite;
+}

@@ -49,6 +49,8 @@ export default function Hero() {
     }
   };
 
+
+
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -122,7 +124,7 @@ export default function Hero() {
             <p className="text-sm md:text-base lg:text-lg font-black uppercase tracking-[0.4em] text-slate-300 drop-shadow-md">
               Welcome To
             </p>
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-[1000] tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#7199c9] drop-shadow-2xl font-sans">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-[1000] tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-sky-100 to-white drop-shadow-2xl font-sans animate-clinical-glow select-none">
               SUNTRION
             </h1>
             <p className="text-lg md:text-2xl font-bold uppercase tracking-widest text-slate-200 mt-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-100 via-slate-200 to-cyan-400 font-mono">

@@ -624,16 +624,7 @@ export default function BookingPage() {
                 <div>
                   <p className="text-sm text-slate-300 font-medium">Advanced Cloud PACS & AI Diagnostic Engine (Simulated Workflow)</p>
                 </div>
-                <div className="shrink-0">
-                  <a
-                    href="https://imagevieweruat.suntrion.com/3cd0b210-5826-4c1a-be0d-ba42471a8299?lng=en"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-block px-5 py-2 bg-[#2563EB] hover:bg-blue-600 text-white text-xs font-black uppercase tracking-wider rounded-full transition-colors shadow-lg shadow-blue-500/20"
-                  >
-                    Try Demo
-                  </a>
-                </div>
+
               </div>
 
               <div className="relative w-full mx-auto rounded-xl overflow-hidden shadow-[0_0_50px_rgba(70,114,164,0.4)] border border-[#4672A4]/30 z-10 transition-transform duration-500 group-hover:scale-[1.02]">
