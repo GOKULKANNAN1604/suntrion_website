@@ -31,7 +31,7 @@ export default function Solutions() {
       id: 'pacs',
       title: 'SunVista PACS',
       subtitle: 'Cloud-native Picture Archiving & PACS suite',
-      category: 'Software Suite',
+      category: 'Tele-Radiology',
       description: 'Picture Archiving and Communication System designed for zero-latency medical diagnostic streaming and robust teleradiology workflows.',
       ctaText: 'Explore Workflows',
       ctaLink: '/book-demo',
