@@ -121,10 +121,10 @@ export default function Hero() {
 
           {/* Headline Title */}
           <motion.div variants={itemVariants} className="space-y-4">
-            <p className="text-sm md:text-base lg:text-lg font-black uppercase tracking-[0.4em] text-slate-300 drop-shadow-md">
+            <p className="text-sm md:text-base lg:text-lg font-black uppercase tracking-[0.4em] text-slate-300">
               Welcome To
             </p>
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-[1000] tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-sky-100 to-white drop-shadow-2xl font-sans animate-clinical-glow select-none">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-[1000] tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-sky-100 to-white font-sans animate-clinical-glow select-none">
               SUNTRION
             </h1>
             <p className="text-lg md:text-2xl font-bold uppercase tracking-widest text-slate-200 mt-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-100 via-slate-200 to-cyan-400 font-mono">
@@ -134,7 +134,7 @@ export default function Hero() {
 
           {/* Detailed Paragraph Description */}
           <motion.div variants={itemVariants}>
-            <p className="text-slate-300 font-medium text-sm md:text-base leading-relaxed max-w-2xl mx-auto drop-shadow">
+            <p className="text-slate-300 font-medium text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
               Developing next-generation diagnostic teleradiology platforms, 3D DICOM volume reconstruction, and clinical workspaces paired with world-class industrial instrumentation, process control valves, and turnkey medical gas pipelines.
             </p>
           </motion.div>

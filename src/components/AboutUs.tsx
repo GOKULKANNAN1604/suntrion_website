@@ -1,4 +1,4 @@
-﻿import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
@@ -45,13 +45,13 @@ export default function AboutUs() {
             <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white mb-6 transition-colors">
               <ChevronLeft size={14} /> Back to Home
             </Link>
-            <h1 className="text-4xl md:text-6xl font-[1000] tracking-tighter uppercase drop-shadow-xl text-white">
+            <h1 className="text-4xl md:text-6xl font-[1000] tracking-tighter uppercase text-white">
               About Us
             </h1>
             <div className="h-1 w-24 bg-[#4672A4] mx-auto mt-4 rounded-full"></div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="space-y-8 text-lg md:text-xl leading-relaxed text-slate-300 font-medium text-justify md:text-center drop-shadow-md">
+          <motion.div variants={itemVariants} className="space-y-8 text-lg md:text-xl leading-relaxed text-slate-300 font-medium text-justify md:text-center">
             <p>
               Suntrion Group is a multi-disciplinary technology pioneer delivering high-precision hardware instrumentation, industrial automation, and advanced medical imaging software.
             </p>
