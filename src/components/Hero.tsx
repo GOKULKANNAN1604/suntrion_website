@@ -88,15 +88,15 @@ export default function Hero() {
             muted 
             playsInline
             className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-[1500ms]"
-            style={{ opacity: videoLoaded ? 0.55 : 0 }}
+            style={{ opacity: videoLoaded ? 0.82 : 0 }}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
         )}
         
         {/* Dark translucent overlay mask with radial gradient and backdrop blur */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070B13]/70 via-black/55 to-[#070B13]/75 backdrop-blur-[0.5px] z-10" />
-        <div className="absolute inset-0 bg-radial-gradient(circle_at_center,rgba(7,11,19,0.20)_0%,rgba(7,11,19,0.80)_100%) z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070B13]/40 via-black/30 to-[#070B13]/45 backdrop-blur-[0.5px] z-10" />
+        <div className="absolute inset-0 bg-radial-gradient(circle_at_center,rgba(7,11,19,0.10)_0%,rgba(7,11,19,0.55)_100%) z-10" />
       </motion.div>
 
       {/* Grid Pattern Overlay */}
